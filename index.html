@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tony Mathew // The Simulation</title>
+
+    <!-- FONTS: Bebas Neue (Titles) & Inter (Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- TYPED.JS: For typing animations -->
+    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+
+    <style>
+        :root {
+            --bg-dark: #0A0A12; /* Dark Navy/Black */
+            --bg-glass: rgba(10, 15, 30, 0.5); /* Glass Background */
+            --border-glass: rgba(255, 255, 255, 0.15);
+            --neon-cyan: #00e0ff;
+            --neon-violet: #d000ff;
+            --text-light: #e0e0f0;
+            --text-medium: #a0a0c0;
+            --font-title: 'Bebas Neue', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'Courier New', Courier, monospace;
+        }
+
+        /* --------------------------------- */
+        /* --- 0. RESET & BASE --- */
+        /* --------------------------------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+
+        /* Subtle scanline/noise overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACXSURBVGhD7c4xEQAgDMCw/6f7b1hHIYybackm13V9s21tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbd/cbQY0A8gLhT8kAAAAASUVORK5CYII=');
+            opacity: 0.03;
+            z-index: 10000;
+        }
+
+        /* New Background Canvas */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        a {
+            color: var(--neon-cyan);
+            text-decoration: none;
+        }
+
+        section {
+            padding: 6rem 10%;
+            border-bottom: 1px solid var(--border-glass);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            position: relative; /* Ensure sections are on top of canvas */
+            z-index: 2;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-title);
+            letter-spacing: 2px;
+            font-weight: 400;
+        }
+
+        h2 {
+            font-size: 3.5rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        h3 {
+            font-size: 2rem;
+            color: var(--neon-violet);
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-medium);
+            margin-bottom: 3rem;
+            max-width: 600px;
+        }
+
+        .glass-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(0, 224, 255, 0.5);
+            box-shadow: 0 0 20px rgba(0, 224, 255, 0.1);
+        }
+
+        /* --------------------------------- */
+        /* --- 1. BOOT SCREEN --- */
+        /* --------------------------------- */
+        #boot-screen {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 1000;
+            display: grid;
+            place-items: center;
+            padding: 2rem;
+            transition: opacity 1s ease-out, visibility 1s;
+            font-family: var(--font-mono);
+            font-size: 1.1rem;
+        }
+
+        #boot-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        #boot-text {
+            color: var(--text-light);
+        }
+
+        #boot-text .prompt {
+            color: var(--neon-cyan);
+        }
+
+        .cursor-blink {
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* --------------------------------- */
+        /* --- 2. HEADER / NAV --- */
+        /* --------------------------------- */
+        #main-header {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            padding: 1rem 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(10, 10, 18, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        #logo {
+            font-family: var(--font-title);
+            font-size: 1.5rem;
+            color: var(--text-light);
+            letter-spacing: 1px;
+        }
+        #logo span {
+            color: var(--neon-cyan);
+        }
+
+        #main-nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        #main-nav a {
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-medium);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+
+        #main-nav a:hover, #main-nav a.active {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 5px var(--neon-cyan);
+        }
+
+        #menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* --------------------------------- */
+        /* --- 3. SECTIONS --- */
+        /* --------------------------------- */
+
+        /* --- HOME --- */
+        #home {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        #home h1 {
+            font-size: 5rem;
+            font-family: var(--font-title);
+            color: var(--text-light);
+            letter-spacing: 3px;
+            line-height: 1.1;
+        }
+
+        #home h1 span {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 15px var(--neon-cyan);
+        }
+
+        #home .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-medium);
+            margin-top: 1rem;
+            max-width: 600px;
+        }
+
+        .cta-buttons {
+            margin-top: 2.5rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--neon-cyan);
+            color: var(--bg-dark);
+            border: 1px solid var(--neon-cyan);
+        }
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--neon-cyan);
+            box-shadow: 0 0 15px var(--neon-cyan);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-medium);
+            border: 1px solid var(--border-glass);
+        }
+        .btn-secondary:hover {
+            color: var(--text-light);
+            border-color: var(--text-light);
+        }
+
+        /* --- PROFILE --- */
+        #profile .profile-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        #hologram-avatar {
+            width: 100%;
+            max-width: 300px;
+            aspect-ratio: 1/1;
+            border-radius: 50%;
+            background: linear-gradient(145deg, var(--neon-cyan), var(--neon-violet));
+            display: grid;
+            place-items: center;
+            font-size: 1.2rem;
+            color: var(--bg-dark);
+            font-weight: 600;
+            position: relative;
+            animation: pulse 3s infinite;
+        }
+
+        /* Hologram effect */
+        #hologram-avatar::before, #hologram-avatar::after {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, var(--neon-cyan), var(--neon-violet));
+            filter: blur(15px);
+            z-index: -1;
+            opacity: 0.7;
+            animation: pulse 3s infinite;
+        }
+        #hologram-avatar::after {
+            filter: blur(30px);
+            opacity: 0.4;
+            animation-delay: -0.5s;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.02); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.7; }
+        }
+
+        #profile-bio p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            color: var(--text-medium);
+        }
+        #profile-bio p strong {
+            color: var(--text-light);
+        }
+
+        /* --- EXPERIENCE --- */
+        #experience-timeline {
+            position: relative;
+            max-width: 800px;
+        }
+
+        /* The vertical timeline bar */
+        #experience-timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--border-glass);
+        }
+
+        .mission-card {
+            margin-bottom: 2rem;
+            padding-left: 3rem;
+            position: relative;
+        }
+
+        /* The glowing dot on the timeline */
+        .mission-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            width: 23px;
+            height: 23px;
+            border-radius: 50%;
+            background: var(--bg-dark);
+            border: 3px solid var(--neon-violet);
+            box-shadow: 0 0 15px var(--neon-violet);
+            z-index: 1;
+        }
+
+        .mission-card .glass-card {
+            border-color: var(--border-glass);
+        }
+
+        .mission-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .mission-header h3 {
+            margin-bottom: 0;
+        }
+
+        .mission-header span {
+            font-size: 0.9rem;
+            color: var(--text-medium);
+            font-weight: 600;
+        }
+
+        .mission-objective {
+            margin-top: 1rem;
+            font-size: 1.05rem;
+            margin-bottom: 1rem; /* Added */
+        }
+        .mission-objective strong {
+            color: var(--neon-cyan);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* --- New Expandable Mission Styles --- */
+        .mission-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            color: var(--text-medium);
+            border-top: 1px solid var(--border-glass);
+            padding-top: 1rem;
+        }
+
+        .mission-details ul {
+            list-style-position: inside;
+            padding-left: 5px;
+        }
+
+        .mission-details li {
+            margin-bottom: 0.5rem;
+        }
+
+        .mission-card.expanded .mission-details {
+            max-height: 500px; /* Allows for expansion */
+        }
+
+        .btn-more {
+            background: transparent;
+            border: 1px solid var(--border-glass);
+            color: var(--text-medium);
+            font-family: var(--font-body);
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-top: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-more:hover {
+            color: var(--neon-cyan);
+            border-color: var(--neon-cyan);
+        }
+
+
+        /* --- SKILLS --- */
+        #skill-tree {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skill-card {
+            padding: 1.5rem;
+        }
+
+        .skill-card h4 {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0;
+        }
+
+        .skill-card p {
+            font-size: 0.95rem;
+            color: var(--text-medium);
+        }
+
+        /* --- PROJECTS --- */
+        #project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .project-card h3 {
+            font-size: 1.5rem; /* Smaller than section H3 */
+            margin-bottom: 0.5rem;
+        }
+
+        .project-card .project-tag {
+            display: inline-block;
+            background: rgba(208, 0, 255, 0.15);
+            color: var(--neon-violet);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        /* --- CONTACT --- */
+        #contact-form {
+            max-width: 700px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-medium);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input, .form-textarea {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-glass);
+            border-radius: 6px;
+            padding: 1rem;
+            color: var(--text-light);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 10px rgba(0, 224, 255, 0.3);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        #contact-response {
+            margin-top: 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 1.1rem;
+            color: var(--neon-cyan);
+            line-height: 1.8;
+        }
+
+        #contact-response .prompt {
+            color: var(--neon-cyan);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+
+        /* --------------------------------- */
+        /* --- 5. FOOTER --- */
+        /* --------------------------------- */
+        footer {
+            padding: 2rem 10%;
+            text-align: center;
+            color: var(--text-medium);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-glass);
+            position: relative;
+            z-index: 2;
+        }
+
+        footer .social-links {
+            margin-bottom: 1rem;
+        }
+
+        footer .social-links a {
+            color: var(--text-medium);
+            font-size: 1.5rem;
+            margin: 0 0.75rem;
+            transition: all 0.3s;
+        }
+
+        footer .social-links a:hover {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        /* --------------------------------- */
+        /* --- 6. TERMINAL EASTER EGG --- */
+        /* --------------------------------- */
+
+        #terminal-mode {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            font-family: var(--font-mono);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        #terminal-mode.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #terminal-output {
+            flex-grow: 1;
+            overflow-y: auto;
+            color: var(--text-medium);
+            line-height: 1.6;
+        }
+
+        #terminal-output .terminal-line {
+            display: block;
+        }
+        #terminal-output .prompt {
+            color: var(--neon-cyan);
+        }
+        #terminal-output .response {
+            color: var(--text-light);
+        }
+        #terminal-output .error {
+            color: #ff4136;
+        }
+
+        #terminal-input-line {
+            display: flex;
+            margin-top: 1rem;
+        }
+
+        #terminal-prompt {
+            color: var(--neon-cyan);
+            margin-right: 0.5rem;
+        }
+
+        #terminal-input {
+            flex-grow: 1;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-family: var(--font-mono);
+            font-size: 1rem;
+        }
+
+        #terminal-input:focus {
+            outline: none;
+        }
+
+
+        /* --------------------------------- */
+        /* --- 7. RESPONSIVE --- */
+        /* --------------------------------- */
+        @media (max-width: 900px) {
+            h2 { font-size: 2.5rem; }
+            #home h1 { font-size: 3.5rem; }
+            #home .subtitle { font-size: 1.2rem; }
+            #profile .profile-content { grid-template-columns: 1fr; }
+            #hologram-avatar { margin: 0 auto 2rem auto; }
+        }
+
+        @media (max-width: 768px) {
+            #main-nav {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px; /* Header height */
+                left: 0;
+                width: 100%;
+                background: var(--bg-dark);
+                padding: 1rem 10%;
+                border-bottom: 1px solid var(--border-glass);
+            }
+            #main-nav.active {
+                display: flex;
+            }
+            #menu-toggle {
+                display: block;
+            }
+            
+            section { padding: 4rem 5%; }
+            h2 { font-size: 2.2rem; }
+            #home h1 { font-size: 2.8rem; }
+            
+            .mission-header { flex-direction: column; align-items: flex-start; }
+            .mission-header span { margin-top: 0.5rem; }
+            .mission-card { padding-left: 2.5rem; }
+            .mission-card::before { width: 18px; height: 18px; left: 2px; }
+            #experience-timeline::before { left: 10px; }
+            
+            .cta-buttons { flex-direction: column; width: 100%; }
+            .btn { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ======== New Background Canvas ======== -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- ======== 1. BOOT SCREEN ======== -->
+    <div id="boot-screen">
+        <div id="boot-loader">
+            <div id="boot-text"></div>
+        </div>
+    </div>
+
+    <!-- ======== 2. HEADER / NAV ======== -->
+    <header id="main-header">
+        <div id="logo">Tony Mathew // <span>Simulation</span></div>
+        <nav id="main-nav">
+            <a href="#home">Home</a>
+            <a href="#profile">Profile</a>
+            <a href="#experience">Experience</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <button id="menu-toggle" aria-label="Open menu">&#9776;</button>
+    </header>
+
+    <main>
+        <!-- ======== HOME ======== -->
+        <section id="home">
+            <h1>Welcome to the<br>Simulation of <span>Tony Mathew</span></h1>
+            <p class="subtitle">A BBA graduate and operations specialist, merging strategic support with AI innovation. Explore my professional universe.</p>
+            <div class="cta-buttons">
+                <a href="#experience" class="btn btn-primary">View Experience</a>
+                <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+            </div>
+        </section>
+
+        <!-- ======== PROFILE ======== -->
+        <section id="profile">
+            <h2>Accessing Profile</h2>
+            <p class="section-subtitle">Who I am and what drives me. This is the core code of my professional identity.</p>
+            <div class="profile-content">
+                <div id="hologram-avatar">
+                    <!-- Placeholder. Replace with <img src="your-photo.png"> -->
+                    Tony Mathew
+                </div>
+                <div id="profile-bio">
+                    <h3>[ Tony Mathew ]</h3>
+                    <p>
+                        Hello! I'm a BBA graduate with professional experience at industry giants like <strong>McKinsey & Company</strong> and <strong>Amazon</strong>. My career is built on a dual passion: providing high-stakes executive support and diving deep into AI operations.
+                    </p>
+                    <p>
+                        I thrive on <strong>streamlining complex workflows</strong>, managing key stakeholders, and ensuring the delivery of high-quality data for AI systems. I bridge the gap between human-centric operations and cutting-edge technology.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== EXPERIENCE ======== -->
+        <section id="experience">
+            <h2>Experience Missions</h2>
+            <p class="section-subtitle">My professional journey, logged as a series of completed and active missions.</p>
+            
+            <div id="experience-timeline">
+                
+                <div class="mission-card">
+                    <div class="glass-card">
+                        <div class="mission-header">
+                            <h3>Mission 01: Executive Assistant</h3>
+                            <span>Jan 2025 – Present</span>
+                        </div>
+                        <h4>@ McKinsey & Company</h4>
+                        <p class="mission-objective">
+                            <strong>Objective:</strong> Serve as the central administrative and coordination lead for 10+ consultants and Engagement Managers.
+                        </p>
+                        <!-- New Expandable Details -->
+                        <div class="mission-details">
+                            <ul>
+                                <li>Managed end-to-end scheduling, calendaring, and meeting coordination for multiple Engagement Managers.</li>
+                                <li>Served as the central administrative lead for 10 consultants, coordinating complex project schedules.</li>
+                                <li>Handled international and domestic travel arrangements, including visa processing.</li>
+                                <li>Created streamlined administrative workflows that improved productivity by 25%.</li>
+                                <li>Maintained confidentiality while handling sensitive documents and high-stakes meetings.</li>
+                            </ul>
+                        </div>
+                        <button class="btn-more">More</button>
+                    </div>
+                </div>
+
+                <div class="mission-card">
+                    <div class="glass-card">
+                        <div class="mission-header">
+                            <h3>Mission 02: ML Data Associate</h3>
+                            <span>Aug 2023 – Dec 2024</span>
+                        </div>
+                        <h4>@ Amazon</h4>
+                        <p class="mission-objective">
+                            <strong>Objective:</strong> Operate on 12 diverse workflows, including image/video tagging, content generation, and sensitive content moderation to train core AI models.
+                        </p>
+                        <!-- New Expandable Details -->
+                        <div class="mission-details">
+                            <ul>
+                                <li>Consistently exceeded 95% quality bar, achieving >98% accuracy on high-priority data labeling projects.</li>
+                                <li>Performed research-based content generation to train AI/ML systems and enhance model reliability.</li>
+                                <li>Recognized with the 'Ownership' Award.</li>
+                                <li>Volunteered for Amazon GMV initiatives (accessible product creation & community drives).</li>
+                            </ul>
+                        </div>
+                        <button class="btn-more">More</button>
+                    </div>
+                </div>
+                
+                <div class="mission-card">
+                    <div class="glass-card">
+                        <div class="mission-header">
+                            <h3>Mission 00: Business Foundations</h3>
+                            <span>Graduated: 2023</span>
+                        </div>
+                        <h4>@ MG University (BBA)</h4>
+                        <p class="mission-objective">
+                            <strong>Objective:</strong> Master the fundamentals of business administration, organizational strategy, and management.
+                            <br>
+                            <strong>Result:</strong> Graduated with an <strong>87.4% score</strong>, leading academic projects on corporate analysis (Netflix) and workplace stress, building a strong foundation for a career in operations and strategy.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ======== SKILLS ======== -->
+        <section id="skills">
+            <h2>Skill Tree</h2>
+            <p class="section-subtitle">The core abilities I've unlocked and continue to level up.</p>
+            
+            <h3>// Technical & AI Ops</h3>
+            <div id="skill-tree">
+                <div class="glass-card skill-card">
+                    <h4>AI Data Operations</h4>
+                    <p>Labeling, tagging, and curating high-quality data to train and improve AI/ML systems.</p>
+                </div>
+                <div class="glass-card skill-card">
+                    <h4>Prompt Engineering</h4>
+                    <p>Crafting precise instructions for Generative AI to produce reliable and accurate content.</p>
+                </div>
+                <div class="glass-card skill-card">
+                    <h4>MS Office Suite (Expert)</h4>
+                    <p>Advanced proficiency in Excel, PowerPoint, and Word for data analysis, presentations, and reports.</p>
+                </div>
+                <div class="glass-card skill-card">
+                    <h4>Product Lifecycle Management</h4>
+                    <p>Overseeing a product's journey from initial concept and design (UI/UX) to market launch.</p>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 3rem;">// Core Competencies</h3>
+            <div id="skill-tree">
+                <div class="glass-card skill-card">
+                    <h4>Stakeholder Management</h4>
+                    <p>Communicating and coordinating effectively with diverse teams and senior leadership.</p>
+                </div>
+                <div class="glass-card skill-card">
+                    <h4>Critical Thinking</h4>
+                    <p>Analyzing complex problems and identifying logical, efficient solutions to improve workflows.</p>
+                </div>
+                <div class="glass-card skill-card">
+                    <h4>Discretion & Confidentiality</h4>
+                    <p>Proven ability to handle sensitive documents and high-stakes meetings with complete professionalism.</p>
+                </div>
+                <div class="glass-card skill-card">
+                    <h4>Proactivity & Initiative</h4>
+                    <p>Recognized with the 'Ownership' Award at Amazon for proactively improving team processes.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== PROJECTS ======== -->
+        <section id="projects">
+            <h2>Project Demos</h2>
+            <p class="section-subtitle">Side quests and personal projects where I test new skills and build new things.</p>
+            
+            <div id="project-grid">
+                <div class="glass-card project-card">
+                    <span class="project-tag">Creator & Project Lead</span>
+                    <h3>Focus Loop - Android App</h3>
+                    <p>Spearheaded the end-to-end product lifecycle for a productivity app. Architected the user experience (UI/UX) and defined the complete go-to-market plan and freemium model.</p>
+                </div>
+                <div class="glass-card project-card">
+                    <span class="project-tag">Academic Team Lead</span>
+                    <h3>Organizational Study: Netflix</h3>
+                    <p>Led a 4-person team to analyze Netflix's organizational design. Produced a 30+ page report that earned a grade of 96/100 for its depth and actionable insights.</p>
+                </div>
+                <div class="glass-card project-card">
+                    <span class="project-tag">Academic Researcher</span>
+                    <h3>Workplace Stress Study</h3>
+                    <p>Surveyed 50 employees to identify key stress triggers. Delivered a final report with actionable recommendations for management that scored 97/100.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== CONTACT ======== -->
+        <section id="contact">
+            <h2>Contact Terminal</h2>
+            <p class="section-subtitle">Send a message directly to my inbox. I'll get back to you as soon as possible.</p>
+            
+            <!-- Updated Form and Response -->
+            <div id="contact-container" style="max-width: 700px;">
+                <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                    <div class="form-group">
+                        <label for="name">Your Name:</label>
+                        <input type="text" id="name" name="name" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Your Email:</label>
+                        <input type="email" id="email" name="email" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Your Message:</label>
+                        <textarea id="message" name="message" class="form-textarea" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Transmit Message</button>
+                </form>
+                <div id="contact-response" class="hidden"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ======== FOOTER ======== -->
+    <footer>
+        <div class="social-links">
+            <!-- Replace with your links -->
+            <a href="https://linkedin.com/in/tony-mathew-tm747" target="_blank" aria-label="LinkedIn">
+                <!-- Simple SVG Icon for LinkedIn -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.783-1.75-1.75s.784-1.75 1.75-1.75 1.75.783 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            </a>
+            <a href="mailto:tonymathew30@gmail.com" aria-label="Email">
+                <!-- Simple SVG Icon for Email -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3v18h24v-18h-24zm21.518 4.288l-9.518 7.712-9.518-7.712h19.036zm-19.518 12.712v-10.898l9.518 7.712 9.518-7.712v10.898h-19.036z"/></svg>
+            </a>
+        </div>
+        <p>&copy; 2025 Tony Mathew. Simulation running.</p>
+    </footer>
+    
+    <!-- ======== New Terminal Easter Egg ======== -->
+    <div id="terminal-mode">
+        <div id="terminal-output">
+            <span class="terminal-line response">Welcome to Terminal Mode. (Press '~' or 'Esc' to exit)</span>
+            <span class="terminal-line response">Type 'help' for a list of commands.</span>
+        </div>
+        <div id="terminal-input-line">
+            <span id="terminal-prompt">simulation:/$</span>
+            <input type="text" id="terminal-input" autocomplete="off" autocapitalize="none">
+        </div>
+    </div>
+    
+    <script defer>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const bootScreen = document.getElementById('boot-screen');
+            const bootText = document.getElementById('boot-text');
+
+            // --- 1. BOOT SEQUENCE (Updated) ---
+            const typedBoot = new Typed('#boot-text', {
+                strings: [
+                    '> Initializing system...<br>> Loading identity: Tony Mathew...',
+                    '> Initializing system...<br>> Loading identity: Tony Mathew... OK<br>> Decrypting experience files...',
+                    '> Initializing system...<br>> Loading identity: Tony Mathew... OK<br>> Decrypting experience files... OK<br>> Boot complete.<br>> Welcome to The Simulation.<span class="cursor-blink">_</span>'
+                ],
+                typeSpeed: 30,
+                backSpeed: 0,
+                showCursor: false,
+                smartBackspace: false,
+                onComplete: () => {
+                    // After 1 second, fade out boot screen
+                    setTimeout(() => {
+                        bootScreen.classList.add('hidden');
+                    }, 1000);
+                }
+            });
+            
+            // Hide boot screen after 5 seconds regardless
+            setTimeout(() => {
+                bootScreen.classList.add('hidden');
+            }, 5000);
+
+            // --- 2. MOBILE NAV ---
+            const menuToggle = document.getElementById('menu-toggle');
+            const mainNav = document.getElementById('main-nav');
+
+            menuToggle.addEventListener('click', () => {
+                mainNav.classList.toggle('active');
+            });
+            
+            mainNav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mainNav.classList.remove('active');
+                });
+            });
+
+            // --- 3. SCROLL ANIMATIONS (FADE-IN) ---
+            const sections = document.querySelectorAll('section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 }); 
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            // --- 4. NEW: EXPERIENCE "MORE" BUTTON ---
+            document.querySelectorAll('.btn-more').forEach(button => {
+                button.addEventListener('click', () => {
+                    const card = button.closest('.mission-card');
+                    
+                    if (card.classList.contains('expanded')) {
+                        card.classList.remove('expanded');
+                        button.textContent = 'More';
+                    } else {
+                        card.classList.add('expanded');
+                        button.textContent = 'Less';
+                    }
+                });
+            });
+
+            // --- 5. CONTACT FORM (Updated with Animation) ---
+            const contactForm = document.getElementById('contact-form');
+            const contactResponse = document.getElementById('contact-response');
+            const contactContainer = document.getElementById('contact-container');
+
+            contactForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                // Hide form, show response
+                contactForm.style.display = 'none';
+                contactResponse.classList.remove('hidden');
+
+                // Start "Transmitting" animation
+                contactResponse.innerHTML = '<span class="prompt">></span> TRANSMITTING...<span class="cursor-blink">_</span>';
+                
+                const data = new FormData(contactForm);
+                let responseOk = false; // Simulate network
+                
+                try {
+                    const response = await fetch(contactForm.action, {
+                        method: 'POST',
+                        body: data,
+                        headers: { 'Accept': 'application/json' }
+                    });
+                    responseOk = response.ok;
+                } catch (error) {
+                    responseOk = false; // Network error
+                }
+
+                // Wait 1.5s for simulation
+                setTimeout(() => {
+                    if (responseOk) {
+                        contactResponse.innerHTML = '<span class="prompt">></span> TRANSMITTING... COMPLETE.<br><span class="prompt">></span> TRANSMISSION SENT SUCCESSFULLY.<br><span class="prompt">></span> Thank you. I will get back to you shortly.';
+                    } else {
+                        // This will show if Formspree fails or network error
+                        contactResponse.innerHTML = '<span class="prompt" style="color: #ff4136;">></span> ERROR: TRANSMISSION FAILED.<br><span class="prompt">></span> Please try again later or contact me directly at <a href="mailto:tonymathew360@gmail.com">tonymathew360@gmail.com</a>.';
+                        // We don't show the form again to prevent spam, but we give an alternative.
+                    }
+                }, 1500);
+            });
+            
+            // --- 5. NEW: BACKGROUND PARTICLE ANIMATION ---
+            const canvas = document.getElementById('bg-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            let particles = [];
+            const particleCount = 50;
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 2 + 1;
+                    this.speedX = (Math.random() * 0.5 - 0.25);
+                    this.speedY = (Math.random() * 0.5 - 0.25);
+                }
+                update() {
+                    if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+                    if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                }
+                draw() {
+                    ctx.fillStyle = 'rgba(0, 224, 255, 0.5)';
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            function initParticles() {
+                particles = [];
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(new Particle());
+                }
+            }
+            
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (let particle of particles) {
+                    particle.update();
+                    particle.draw();
+                }
+                requestAnimationFrame(animateParticles);
+            }
+            
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                initParticles();
+            });
+
+            initParticles();
+            animateParticles();
+            
+            
+            // --- 6. NEW: TERMINAL MODE EASTER EGG ---
+            const terminalMode = document.getElementById('terminal-mode');
+            const terminalInput = document.getElementById('terminal-input');
+            const terminalOutput = document.getElementById('terminal-output');
+            let terminalHistory = [];
+            let historyIndex = -1;
+
+            function toggleTerminal() {
+                terminalMode.classList.toggle('active');
+                if (terminalMode.classList.contains('active')) {
+                    terminalInput.focus();
+                }
+            }
+            
+            function printToTerminal(text, type = 'response') {
+                const line = document.createElement('span');
+                line.className = `terminal-line ${type}`;
+                line.innerHTML = text;
+                terminalOutput.appendChild(line);
+                terminalOutput.scrollTop = terminalOutput.scrollHeight;
+            }
+
+            function handleTerminalCommand(command) {
+                // Print the command
+                printToTerminal(`<span class="prompt">simulation:/$</span> ${command}`, 'command');
+                
+                // Add to history
+                if(command) terminalHistory.unshift(command);
+                historyIndex = -1; // Reset history index
+                
+                // Process command
+                switch(command.toLowerCase().trim()) {
+                    case 'help':
+                        printToTerminal("Available commands:<br>" +
+                                        "&nbsp;&nbsp;whoami&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Access profile data.<br>" +
+                                        "&nbsp;&nbsp;mission_status - View active missions.<br>" +
+                                        "&nbsp;&nbsp;clear&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Clear the terminal screen.<br>" +
+                                        "&nbsp;&B;help&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Show this help message.");
+                        break;
+                    case 'whoami':
+                        printToTerminal("Accessing identity...<br>Subject: Tony Mathew<br>Designation: Operations Specialist, AI Ops<br>Status: Active");
+                        break;
+                    case 'mission_status':
+                        printToTerminal("Querying mission log...<br>" +
+                                        "&nbsp;&nbsp;[ACTIVE] Mission 01: Executive Assistant @ McKinsey<br>" +
+                                        "&nbsp;&nbsp;[COMPLETE] Mission 02: ML Data Associate @ Amazon<br>" +
+                                        "&nbsp;&nbsp;[COMPLETE] Mission 00: Business Foundations @ MG University");
+                        break;
+                    case 'clear':
+                        terminalOutput.innerHTML = '';
+                        break;
+                    case '':
+                        // Do nothing
+                        break;
+                    default:
+                        printToTerminal(`Command not found: ${command}`, 'error');
+                }
+            }
+
+            // Listen for terminal toggle key
+            window.addEventListener('keydown', (e) => {
+                if (e.key === '~' || e.key === '`') {
+                    e.preventDefault();
+                    toggleTerminal();
+                }
+                if (e.key === 'Escape' && terminalMode.classList.contains('active')) {
+                    toggleTerminal();
+                }
+            });
+            
+            // Listen for 'Enter' in terminal input
+            terminalInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    handleTerminalCommand(e.target.value);
+                    e.target.value = '';
+                }
+                
+                // History navigation
+                if (e.key === 'ArrowUp') {
+                    if (historyIndex < terminalHistory.length - 1) {
+                        historyIndex++;
+                        e.target.value = terminalHistory[historyIndex];
+                    }
+                } else if (e.key === 'ArrowDown') {
+                    if (historyIndex > 0) {
+                        historyIndex--;
+                        e.target.value = terminalHistory[historyIndex];
+                    } else if (historyIndex === 0) {
+                        historyIndex = -1;
+                        e.target.value = "";
+                    }
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
