@@ -126,6 +126,10 @@
             position: relative; 
             z-index: 2;
         }
+        /* No border on the last content section */
+        #contact {
+            border-bottom: none;
+        }
 
         section.visible {
             opacity: 1;
@@ -173,7 +177,7 @@
             box-shadow: 0 0 20px rgba(0, 224, 255, 0.1);
         }
 
-        .skill-card, .project-card, .cert-card {
+        .skill-card, .project-card, .cert-card, .info-card { /* Added info-card */
             will-change: transform;
         }
 
@@ -418,7 +422,6 @@
             align-items: center;
         }
 
-        /* ======== UPDATED: PROFILE BUBBLE ANIMATION ======== */
         @keyframes rotate-arc {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
@@ -429,7 +432,7 @@
             max-width: 300px;
             aspect-ratio: 1/1;
             border-radius: 50%;
-            background: var(--bg-dark); /* Changed from gradient to solid */
+            background: var(--bg-dark); 
             position: relative;
             overflow: hidden; 
         }
@@ -439,22 +442,19 @@
             height: 100%;
             object-fit: cover; 
             border-radius: 50%;
-            transform: scale(1.03); /* NEW: Prevents color bleed */
+            transform: scale(1.03); /* Prevents color bleed */
         }
         
-        /* This is the new rotating 180-degree arc */
         #hologram-avatar .rotating-arc {
             position: absolute;
             inset: 0;
             border-radius: 50%;
             border: 3px solid transparent;
-            /* Creates a 180-degree arc */
             border-top-color: var(--neon-accent); 
             border-right-color: var(--neon-accent);
             animation: rotate-arc 4s linear infinite;
         }
 
-        /* This is the static glow */
         #hologram-avatar::before, #hologram-avatar::after {
             content: '';
             position: absolute;
@@ -469,7 +469,6 @@
             filter: blur(30px);
             opacity: 0.4;
         }
-        /* ======== END: PROFILE BUBBLE ANIMATION ======== */
 
 
         #profile-bio p {
@@ -485,7 +484,6 @@
             margin-top: 1.5rem;
         }
 
-        /* ======== CORE DIRECTIVES STYLES ======== */
         .core-directives {
             margin-top: 2.5rem;
             background: rgba(0,0,0,0.2);
@@ -510,7 +508,6 @@
             color: var(--neon-accent);
             margin-right: 0.5rem;
         }
-        /* ======== END: CORE DIRECTIVES STYLES ======== */
 
 
         /* --- EXPERIENCE --- */
@@ -673,17 +670,17 @@
 
 
         /* --- SKILLS --- */
-        #skill-tree {
+        #skill-tree, .info-grid { /* Re-used for new sections */
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
         }
 
-        .skill-card {
+        .skill-card, .info-card { /* Re-used for new sections */
             padding: 1.5rem;
         }
 
-        .skill-card h4 {
+        .skill-card h4, .info-card h4 {
             font-family: var(--font-body);
             font-size: 1.1rem;
             font-weight: 600;
@@ -692,7 +689,7 @@
             letter-spacing: 0;
         }
 
-        .skill-card p {
+        .skill-card p, .info-card p {
             font-size: 0.95rem;
             color: var(--text-medium);
         }
@@ -881,7 +878,6 @@
             text-shadow: 0 0 10px var(--neon-accent);
         }
         
-        /* NEW: Style for the email text */
         footer .social-links .email-text {
             color: var(--text-medium);
             font-family: var(--font-mono);
@@ -1132,17 +1128,18 @@
             <a href="#skills">Skills</a>
             <a href="#projects">Projects</a>
             <a href="#certifications">Achievements</a>
+            <!-- ======== NEW: NAV LINKS ======== -->
+            <a href="#languages">Languages</a>
+            <a href="#hobbies">Hobbies</a>
             <a href="#contact">Contact</a>
         </nav>
 
-        <!-- ======== UPDATED: THEME SELECTOR ======== -->
+        <!-- ======== UPDATED: THEME SELECTOR ICON ======== -->
         <div id="theme-selector">
             <button id="theme-toggle-btn" aria-label="Select theme">
-                <!-- New Paint Palette Icon -->
+                <!-- New Contrast/Circle Icon -->
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-                    <path d="M11.783 1.066a.75.75 0 0 0-1.566 0l-1.622 4.992a.75.75 0 0 0 .57 1.006l4.993 1.622a.75.75 0 0 0 1.006-.57L13.56 1.434a.75.75 0 0 0-.154-.368Z"/>
-                    <path fill-rule="evenodd" d="M13.217 6.43a.75.75 0 0 0 .57 1.006l4.993 1.622a.75.75 0 0 0 1.006-.57l1.622-4.992a.75.75 0 0 0-1.566 0l-1.622 4.992a.75.75 0 0 0-.57-1.006L12.658 4.86a.75.75 0 0 0-1.006.57l-1.622 4.992a.75.75 0 1 0 1.566 0l1.622-4.992ZM11.03 10.116a.75.75 0 0 0-1.006-.57L5.03 11.168a.75.75 0 0 0-.57 1.006l1.622 4.992a.75.75 0 1 0 1.566 0l-1.622-4.992a.75.75 0 0 0 .57-1.006l4.993-1.622a.75.75 0 0 0 .57-1.006L10.434 3.03a.75.75 0 1 0-1.566 0l2.162 6.666ZM5.57 14.156a.75.75 0 0 0-1.006-.57L-.43 15.208a.75.75 0 0 0-.57 1.006l1.622 4.992a.75.75 0 1 0 1.566 0l-1.622-4.992a.75.75 0 0 0 .57-1.006l4.993-1.622a.75.75 0 0 0 .57-1.006L5.03 7.616a.75.75 0 1 0-1.566 0l2.106 6.48Z" clip-rule="evenodd"/>
-                    <path d="M12 12.75a6 6 0 1 1 12 0 6 6 0 0 1-12 0Zm6-4.5a.75.75 0 0 0 0 1.5a.75.75 0 0 0 0-1.5Z"/>
+                    <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12Z" clip-rule="evenodd" />
                 </svg>
             </button>
             <div id="theme-options" class="hidden">
@@ -1170,12 +1167,10 @@
             <h2>Accessing Profile</h2>
             <p class="section-subtitle">Who I am and what drives me. This is the core code of my professional identity.</p>
             <div class="profile-content">
-                <!-- ======== UPDATED: PROFILE BUBBLE ======== -->
                 <div id="hologram-avatar">
                     <img src="profile.jpg" alt="Tony Mathew">
-                    <span class="rotating-arc"></span> <!-- The new rotating element -->
+                    <span class="rotating-arc"></span>
                 </div>
-                <!-- ======== END: PROFILE BUBBLE ======== -->
                 <div id="profile-bio">
                     <h3>[ Tony Mathew ]</h3>
                     <p>
@@ -1345,10 +1340,8 @@
                     <p>Led a 4-person team to analyze Netflix's organizational design. Produced a 30+ page report...</p>
                 </div>
                 
-                <!-- ======== UPDATED: PROJECT ICON ======== -->
                 <div class="glass-card project-card" data-modal="project-3">
                     <div class="project-visual">
-                        <!-- Icon copied from Project 2 -->
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg>
                     </div>
                     <span class="project-tag">Academic Researcher</span>
@@ -1397,6 +1390,53 @@
             </div>
         </section>
 
+        <!-- ======== NEW: LANGUAGES SECTION ======== -->
+        <section id="languages">
+            <h2>Language Packs</h2>
+            <p class="section-subtitle">Communication protocols I have installed and actively use.</p>
+            <div class="info-grid">
+                <div class="glass-card info-card">
+                    <h4>English</h4>
+                    <p>Fluent / C2 Level</p>
+                </div>
+                <div class="glass-card info-card">
+                    <h4>Malayalam</h4>
+                    <p>Native / Mother Tongue</p>
+                </div>
+                <div class="glass-card info-card">
+                    <h4>Hindi</h4>
+                    <p>Conversational</p>
+                </div>
+                <div class="glass-card info-card">
+                    <h4>Spanish</h4>
+                    <p>Basic / Learning</p>
+                </div>
+                <div class="glass-card info-card">
+                    <h4>Japanese</h4>
+                    <p>Basic / Learning</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== NEW: HOBBIES SECTION ======== -->
+        <section id="hobbies">
+            <h2>Hobbies & Interests</h2>
+            <p class="section-subtitle">Personal subroutines that I run to decompress and innovate.</p>
+            <div class="info-grid">
+                <div class="glass-card info-card">
+                    <h4>Product Design</h4>
+                    <p>Sketching out and designing app interfaces and user experiences, as seen in my 'Focus Loop' project.</p>
+                </div>
+                <div class="glass-card info-card">
+                    <h4>Language Learning</h4>
+                    <p>Passionate about exploring new cultures and communication styles, currently focused on Spanish and Japanese.</p>
+                </div>
+                <div class="glass-card info-card">
+                    <h4>Creative Tech</h4>
+                    <p>Exploring visual storytelling and new technologies through video editing and website design.</p>
+                </div>
+            </div>
+        </section>
 
         <section id="contact">
             <h2>Contact Terminal</h2>
@@ -1428,12 +1468,10 @@
             <a href="https://linkedin.com/in/tony-mathew-tm747" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.783-1.75-1.75s.784-1.75 1.75-1.75 1.75.783 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
             </a>
-            <!-- ======== UPDATED: EMAIL LINK + TEXT ======== -->
             <a href="mailto:tonymathew360@gmail.com" aria-label="Email">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3v18h24v-18h-24zm21.518 4.288l-9.518 7.712-9.518-7.712h19.036zm-19.518 12.712v-10.898l9.518 7.712 9.518-7.712v10.898h-19.036z"/></svg>
             </a>
             <span class="email-text">tonymathew360@gmail.com</span>
-            <!-- ======== END: EMAIL LINK + TEXT ======== -->
         </div>
         <p>&copy; 2025 Tony Mathew. System file running.</p>
     </footer>
@@ -1518,7 +1556,7 @@
                     onComplete: () => {
                         setTimeout(() => {
                             bootScreen.classList.add('hidden');
-                        }, 100); // UPDATED: 50% Faster boot time (was 200ms)
+                        }, 100); 
                     }
                 });
             }
@@ -1601,7 +1639,6 @@
                         if (responseOk) {
                             contactResponse.innerHTML = '<span class="prompt">></span> TRANSMITTING... COMPLETE.<br><span class="prompt">></span> TRANSMISSION SENT SUCCESSFULLY.<br><span class="prompt">></span> Thank you. I will get back to you shortly.';
                         } else {
-                            // ======== UPDATED: EMAIL ADDRESS ========
                             contactResponse.innerHTML = '<span class="prompt" style="color: #ff4136;">></span> ERROR: TRANSMISSION FAILED.<br><span class="prompt">></span> Please try again later or contact me directly at <a href="mailto:tonymathew360@gmail.com">tonymathew360@gmail.com</a>.';
                         }
                     }, 1500);
@@ -1640,7 +1677,8 @@
                     }
                 }
 
-                function initParticles() {
+                // Make initParticles global so theme switcher can call it
+                window.initParticles = () => {
                     particles = [];
                     for (let i = 0; i < particleCount; i++) {
                         particles.push(new Particle());
@@ -1687,7 +1725,8 @@
             }
 
             apply3DTilt('.skill-card');
-            apply3DTilt('.cert-card:not(a)'); // Only apply tilt to non-link certs
+            apply3DTilt('.cert-card:not(a)');
+            apply3DTilt('.info-card'); // Apply to new cards
             
             
             // --- 8. TERMINAL MODE EASTER EGG ---
@@ -1746,6 +1785,8 @@
                                             "&nbsp;&nbsp;[skills.tree]<br>" +
                                             "&nbsp;&nbsp;[projects.dat]<br>" +
                                             "&nbsp;&nbsp;[achievements.pkg]<br>" + 
+                                            "&nbsp;&nbsp;[languages.pkg]<br>" + // NEW
+                                            "&nbsp;&nbsp;[hobbies.dat]<br>" +   // NEW
                                             "&nbsp;&nbsp;[contact.frm]");
                             break;
                         case 'status': 
@@ -1760,6 +1801,7 @@
                         case '':
                             break;
                         default:
+                            // ======== FIX: Corrected typo 'printToTo` terminal' to 'printToTerminal' ========
                             printToTerminal(`Command not found: ${command}`, 'error');
                     }
                 }
@@ -1861,30 +1903,24 @@
                 }
             });
 
-            // --- 11. ACTIVE NAV ON SCROLL (FIXED) ---
+            // --- 11. ACTIVE NAV ON SCROLL ---
             const navLinks = document.querySelectorAll('#main-nav a');
-            const allSections = document.querySelectorAll('section');
+            const allSections = document.querySelectorAll('section'); // This will now include new sections
 
             const navObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    // Check if the section is intersecting
                     if (entry.isIntersecting) {
                         const id = entry.target.getAttribute('id');
-                        
-                        // First, remove 'active' from all links
-                        navLinks.forEach(link => link.classList.remove('active'));
-                        
-                        // Then, add 'active' to the specific link that matches
-                        const activeLink = document.querySelector(`#main-nav a[href="#${id}"]`);
-                        if(activeLink) {
-                            activeLink.classList.add('active');
-                        }
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${id}`) {
+                                link.classList.add('active');
+                            }
+                        });
                     }
                 });
             }, { 
-                // This creates a "hot zone" in the middle 40% of the screen
-                // A section is "active" when it passes through this zone
-                rootMargin: '-30% 0px -30% 0px' 
+                rootMargin: '-30% 0px -30% 0px' // Section is active when in middle 40% of viewport
             });
 
             allSections.forEach(section => {
