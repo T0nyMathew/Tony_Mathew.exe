@@ -429,10 +429,9 @@
             max-width: 300px;
             aspect-ratio: 1/1;
             border-radius: 50%;
-            background: linear-gradient(145deg, var(--neon-accent), var(--neon-secondary));
+            background: var(--bg-dark); /* Changed from gradient to solid */
             position: relative;
             overflow: hidden; 
-            /* REMOVED: pulse animation */
         }
         
         #hologram-avatar img {
@@ -440,19 +439,19 @@
             height: 100%;
             object-fit: cover; 
             border-radius: 50%;
+            transform: scale(1.03); /* NEW: Prevents color bleed */
         }
         
-        /* This is the new rotating arc */
+        /* This is the new rotating 180-degree arc */
         #hologram-avatar .rotating-arc {
             position: absolute;
             inset: 0;
             border-radius: 50%;
             border: 3px solid transparent;
-            border-top-color: var(--neon-accent); /* The visible part of the arc */
+            /* Creates a 180-degree arc */
+            border-top-color: var(--neon-accent); 
+            border-right-color: var(--neon-accent);
             animation: rotate-arc 4s linear infinite;
-            /* Fade the arc at the bottom to make it a semi-circle */
-            mask-image: linear-gradient(to bottom, #fff 40%, transparent 70%);
-            -webkit-mask-image: linear-gradient(to bottom, #fff 40%, transparent 70%);
         }
 
         /* This is the static glow */
@@ -465,7 +464,6 @@
             filter: blur(15px);
             z-index: -1;
             opacity: 0.7;
-            /* REMOVED: pulse animation */
         }
         #hologram-avatar::after {
             filter: blur(30px);
@@ -862,19 +860,39 @@
 
         footer .social-links {
             margin-bottom: 1rem;
+            display: flex; /* NEW: Flex layout for links */
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
         footer .social-links a {
             color: var(--text-medium);
             font-size: 1.5rem;
-            margin: 0 0.75rem;
+            margin: 0 0.5rem; /* Adjusted margin */
             transition: all 0.3s;
+            display: inline-flex; /* Aligns icon properly */
+            align-items: center;
         }
 
         footer .social-links a:hover {
             color: var(--neon-accent);
             text-shadow: 0 0 10px var(--neon-accent);
         }
+        
+        /* NEW: Style for the email text */
+        footer .social-links .email-text {
+            color: var(--text-medium);
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            margin-left: -0.5rem; /* Pull it closer to the icon */
+            transition: color 0.3s;
+        }
+        footer .social-links a:hover + .email-text {
+             color: var(--neon-accent);
+        }
+
 
         /* --------------------------------- */
         /* --- 6. TERMINAL EASTER EGG --- */
@@ -1120,9 +1138,9 @@
         <!-- ======== UPDATED: THEME SELECTOR ======== -->
         <div id="theme-selector">
             <button id="theme-toggle-btn" aria-label="Select theme">
-                <!-- New Paint Palette Icon -->
+                <!-- New Swatch Icon -->
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-                    <path d="M12 3a9 9 0 0 0-9 9c0 7.72 9 12 9 12s9-4.28 9-12a9 9 0 0 0-9-9ZM8 11a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm4 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm4 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/>
+                    <path fill-rule="evenodd" d="M.75 4.5a.75.75 0 0 1 .75-.75h.754a2.25 2.25 0 0 1 2.052.932l3.352 4.93C8.428 10.86 9.87 11.25 11.25 11.25h1.5c1.38 0 2.822-.39 3.594-1.638l3.352-4.93a2.25 2.25 0 0 1 2.052-.932H22.5a.75.75 0 0 1 .75.75v15a.75.75 0 0 1-.75.75H1.5a.75.75 0 0 1-.75-.75V4.5Zm3.516 0a.75.75 0 0 0-.628.368L.89 9.362a.75.75 0 0 0 .528 1.002l2.885.641a11.187 11.187 0 0 0 2.184 0l2.885-.641a.75.75 0 0 0 .528-1.002L7.15 4.868a.75.75 0 0 0-.628-.368H4.266ZM16.849 4.5a.75.75 0 0 0-.628.368L13.472 9.362a.75.75 0 0 0 .528 1.002l2.885.641c.713.158 1.455.237 2.184 0l2.885-.641a.75.75 0 0 0 .528-1.002l-2.748-4.5a.75.75 0 0 0-.628-.368h-2.716Z" clip-rule="evenodd" />
                 </svg>
             </button>
             <div id="theme-options" class="hidden">
@@ -1328,9 +1346,9 @@
                 <!-- ======== UPDATED: PROJECT ICON ======== -->
                 <div class="glass-card project-card" data-modal="project-3">
                     <div class="project-visual">
-                        <!-- New Clipboard-List Icon -->
+                        <!-- New Document-Text Icon -->
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h.01M15 12h.01M10.5 16.5h.01M13.5 16.5h.01M16.5 10.5h.01M7.5 10.5h.01M7.5 16.5h.01m-3.01-3h.01M3.75 12h.01M3.75 16.5h.01m12.01-3h.01M16.5 16.5h.01M10.5 12h3M13.5 10.5h-3M10.5 7.5h3M7.5 7.5h.01M7.5 13.5h.01M7.5 10.5h.01M10.5 10.5h.01M13.5 13.5h.01M13.5 7.5h.01M16.5 7.5h.01M16.5 13.5h.01M16.5 10.5h.01M4.5 21a3 3 0 0 0 3 3h9a3 3 0 0 0 3-3v-1.5a3 3 0 0 0-3-3h-9a3 3 0 0 0-3 3v1.5Zm0-13.5a3 3 0 0 0 3 3h9a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3h-9a3 3 0 0 0-3 3v1.5Z" />
+                           <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m-1.125 0H5.625A2.25 2.25 0 0 0 3.375 6v12a2.25 2.25 0 0 0 2.25 2.25h12.75A2.25 2.25 0 0 0 20.625 18v-1.586a2.25 2.25 0 0 0-.659-1.586l-4.12-4.12a2.25 2.25 0 0 0-1.586-.659H8.25A2.25 2.25 0 0 0 6 5.25v-1.5m1.5 0v1.5a1.5 1.5 0 0 0 1.5 1.5h1.5v-1.5A1.5 1.5 0 0 0 9 3.75M15 15h-3" />
                         </svg>
                     </div>
                     <span class="project-tag">Academic Researcher</span>
@@ -1410,10 +1428,12 @@
             <a href="https://linkedin.com/in/tony-mathew-tm747" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.783-1.75-1.75s.784-1.75 1.75-1.75 1.75.783 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
             </a>
-            <!-- ======== UPDATED: EMAIL ADDRESS ======== -->
+            <!-- ======== UPDATED: EMAIL LINK + TEXT ======== -->
             <a href="mailto:tonymathew360@gmail.com" aria-label="Email">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3v18h24v-18h-24zm21.518 4.288l-9.518 7.712-9.518-7.712h19.036zm-19.518 12.712v-10.898l9.518 7.712 9.518-7.712v10.898h-19.036z"/></svg>
             </a>
+            <span class="email-text">tonymathew360@gmail.com</span>
+            <!-- ======== END: EMAIL LINK + TEXT ======== -->
         </div>
         <p>&copy; 2025 Tony Mathew. System file running.</p>
     </footer>
@@ -1466,7 +1486,7 @@
     <template id="modal-project-3">
         <span class="project-tag">Academic Researcher</span>
         <h3>Workplace Stress Study</h3>
-        <p>Surveyed 50 employees to identify key stress triggers. Delivered a final report with actionable recommendations for management that scored 97/100.</p>
+        <p>Surveyed 50 employees to identify key stress triggers. Delivered a final report with actionable recommendations for management that scored 97/1E0.</p>
         <hr>
         <h4>// Case Study</h4>
         <p><strong>Objective:</strong> To identify the primary sources of workplace stress within a mid-sized organization and propose practical, low-cost interventions for management.</p>
@@ -1498,7 +1518,7 @@
                     onComplete: () => {
                         setTimeout(() => {
                             bootScreen.classList.add('hidden');
-                        }, 200); // Faster boot time
+                        }, 100); // UPDATED: 50% Faster boot time (was 200ms)
                     }
                 });
             }
@@ -1725,7 +1745,7 @@
                                             "&nbsp;&nbsp;[experience.log]<br>" +
                                             "&nbsp;&nbsp;[skills.tree]<br>" +
                                             "&nbsp;&nbsp;[projects.dat]<br>" +
-                                            "&nbsp;&Z;[achievements.pkg]<br>" + 
+                                            "&nbsp;&nbsp;[achievements.pkg]<br>" + // <-- FIX WAS HERE
                                             "&nbsp;&nbsp;[contact.frm]");
                             break;
                         case 'status': 
