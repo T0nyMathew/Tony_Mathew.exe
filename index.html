@@ -21,8 +21,7 @@
             --bg-glass: rgba(10, 15, 30, 0.5); /* Glass Background */
             --border-glass: rgba(255, 255, 255, 0.15);
             
-            /* ======== NEW: THEME-AWARE COLORS ======== */
-            /* Define the core colors */
+            /* ======== THEME-AWARE COLORS ======== */
             --color-cyan: #00e0ff;
             --color-violet: #d000ff;
             --color-green: #00ff6a;
@@ -38,8 +37,7 @@
             --font-mono: 'Courier New', Courier, monospace;
         }
 
-        /* ======== NEW: THEME CLASSES ======== */
-        /* These classes will be applied to the <body> tag by JS */
+        /* ======== THEME CLASSES ======== */
         body.theme-cyan {
             --neon-accent: var(--color-cyan);
             --neon-secondary: var(--color-violet);
@@ -67,7 +65,7 @@
             scroll-behavior: smooth;
         }
 
-        /* ======== NEW: CUSTOM SCROLLBAR ======== */
+        /* ======== CUSTOM SCROLLBAR ======== */
         ::-webkit-scrollbar {
             width: 8px;
             background: var(--bg-dark);
@@ -99,7 +97,7 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACXSURBVGhD7c4xEQAgDMCw/6f7b1hHIYybackm13V9s21tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbd/cbQY0A8gLhT8kAAAAASUVORK5CYII=');
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACXSURBVGhD7c4xEQAgDMCw/6f7b1hHIYybackm13V9s21tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbd/cbQY0A8gLhT8kAAAAASUVORK5CYII=');
             opacity: 0.03;
             z-index: 10000;
         }
@@ -144,13 +142,11 @@
             font-size: 3.5rem;
             color: var(--text-light);
             margin-bottom: 0.5rem;
-            /* UPDATED: Uses accent color */
             text-shadow: 0 0 10px var(--neon-accent);
         }
 
         h3 {
             font-size: 2rem;
-            /* UPDATED: Uses secondary color */
             color: var(--neon-secondary);
             margin-bottom: 1rem;
         }
@@ -173,7 +169,6 @@
         }
 
         .glass-card:hover {
-            /* UPDATED: Uses accent color */
             border-color: rgba(0, 224, 255, 0.5);
             box-shadow: 0 0 20px rgba(0, 224, 255, 0.1);
         }
@@ -209,7 +204,6 @@
         }
 
         #boot-text .prompt {
-            /* UPDATED: Uses accent color */
             color: var(--neon-accent);
         }
 
@@ -245,7 +239,6 @@
             letter-spacing: 1px;
         }
         #logo span {
-            /* UPDATED: Uses accent color */
             color: var(--neon-accent);
         }
 
@@ -264,9 +257,7 @@
             transition: all 0.3s;
         }
 
-        /* ======== UPDATED: Active Nav State ======== */
         #main-nav a:hover, #main-nav a.active {
-            /* UPDATED: Uses accent color */
             color: var(--neon-accent);
             text-shadow: 0 0 5px var(--neon-accent);
         }
@@ -280,7 +271,7 @@
             cursor: pointer;
         }
 
-        /* ======== NEW: THEME SELECTOR STYLES ======== */
+        /* ======== THEME SELECTOR STYLES ======== */
         #theme-selector {
             position: relative;
             margin-left: 1.5rem;
@@ -348,7 +339,6 @@
         }
 
         #home h1 span {
-            /* UPDATED: Uses accent color */
             color: var(--neon-accent);
             text-shadow: 0 0 15px var(--neon-accent);
         }
@@ -383,14 +373,12 @@
         }
 
         .btn-primary {
-            /* UPDATED: Uses accent color */
             background: var(--neon-accent);
             color: var(--bg-dark);
             border: 1px solid var(--neon-accent);
         }
         .btn-primary:hover {
             background: transparent;
-            /* UPDATED: Uses accent color */
             color: var(--neon-accent);
             box-shadow: 0 0 15px var(--neon-accent);
         }
@@ -430,49 +418,61 @@
             align-items: center;
         }
 
+        /* ======== UPDATED: PROFILE BUBBLE ANIMATION ======== */
+        @keyframes rotate-arc {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
         #hologram-avatar {
             width: 100%;
             max-width: 300px;
             aspect-ratio: 1/1;
             border-radius: 50%;
-            /* UPDATED: Uses accent/secondary */
             background: linear-gradient(145deg, var(--neon-accent), var(--neon-secondary));
             position: relative;
-            animation: pulse 3s infinite;
             overflow: hidden; 
+            /* REMOVED: pulse animation */
         }
-
+        
         #hologram-avatar img {
             width: 100%;
             height: 100%;
             object-fit: cover; 
             border-radius: 50%;
         }
+        
+        /* This is the new rotating arc */
+        #hologram-avatar .rotating-arc {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: var(--neon-accent); /* The visible part of the arc */
+            animation: rotate-arc 4s linear infinite;
+            /* Fade the arc at the bottom to make it a semi-circle */
+            mask-image: linear-gradient(to bottom, #fff 40%, transparent 70%);
+            -webkit-mask-image: linear-gradient(to bottom, #fff 40%, transparent 70%);
+        }
 
-
+        /* This is the static glow */
         #hologram-avatar::before, #hologram-avatar::after {
             content: '';
             position: absolute;
             inset: -5px;
             border-radius: 50%;
-            /* UPDATED: Uses accent/secondary */
             background: linear-gradient(145deg, var(--neon-accent), var(--neon-secondary));
             filter: blur(15px);
             z-index: -1;
             opacity: 0.7;
-            animation: pulse 3s infinite;
+            /* REMOVED: pulse animation */
         }
         #hologram-avatar::after {
             filter: blur(30px);
             opacity: 0.4;
-            animation-delay: -0.5s;
         }
+        /* ======== END: PROFILE BUBBLE ANIMATION ======== */
 
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.7; }
-            50% { transform: scale(1.02); opacity: 1; }
-            100% { transform: scale(1); opacity: 0.7; }
-        }
 
         #profile-bio p {
             margin-bottom: 1rem;
@@ -487,7 +487,7 @@
             margin-top: 1.5rem;
         }
 
-        /* ======== NEW: CORE DIRECTIVES STYLES ======== */
+        /* ======== CORE DIRECTIVES STYLES ======== */
         .core-directives {
             margin-top: 2.5rem;
             background: rgba(0,0,0,0.2);
@@ -509,7 +509,6 @@
             margin-bottom: 0.5rem;
         }
         .core-directives p span {
-            /* UPDATED: Uses accent color */
             color: var(--neon-accent);
             margin-right: 0.5rem;
         }
@@ -547,7 +546,6 @@
             height: 23px;
             border-radius: 50%;
             background: var(--bg-dark);
-            /* UPDATED: Uses secondary color */
             border: 3px solid var(--neon-secondary);
             box-shadow: 0 0 15px var(--neon-secondary);
             z-index: 1;
@@ -580,7 +578,6 @@
             margin-bottom: 1rem;
         }
         .mission-objective strong {
-            /* UPDATED: Uses accent color */
             color: var(--neon-accent);
             text-transform: uppercase;
             font-weight: 600;
@@ -629,7 +626,6 @@
         }
 
         .btn-more:hover {
-            /* UPDATED: Uses accent color */
             color: var(--neon-accent);
             border-color: var(--neon-accent);
         }
@@ -654,12 +650,10 @@
         .icon-line-h { top: 5px; left: 0; width: 12px; height: 2px; }
 
         .mission-card.expanded .btn-more {
-            /* UPDATED: Uses accent color */
             color: var(--neon-accent);
             border-color: var(--neon-accent);
         }
         .mission-card.expanded .btn-more span {
-            /* UPDATED: Uses accent color */
              color: var(--neon-accent);
         }
         .mission-card.expanded .plus-minus-icon .icon-line-v {
@@ -668,17 +662,14 @@
         }
         .mission-card.expanded .plus-minus-icon .icon-line-h {
             transform: rotate(180deg);
-            /* UPDATED: Uses accent color */
             background: var(--neon-accent);
         }
         .mission-card.expanded .btn-more:hover .icon-line-h,
         .mission-card.expanded .btn-more:hover .icon-line-v {
-            /* UPDATED: Uses accent color */
             background: var(--neon-accent);
         }
         .btn-more:hover .icon-line-h,
         .btn-more:hover .icon-line-v {
-            /* UPDATED: Uses accent color */
             background: var(--neon-accent);
         }
 
@@ -715,7 +706,6 @@
             gap: 1.5rem;
         }
 
-        /* ======== UPDATED: Project card is clickable ======== */
         .project-card {
             cursor: pointer;
         }
@@ -733,7 +723,6 @@
             transition: color 0.3s;
         }
         .project-card:hover .project-visual {
-            /* UPDATED: Uses accent color */
             color: var(--neon-accent);
         }
         .project-visual svg {
@@ -748,7 +737,6 @@
 
         .project-card .project-tag {
             display: inline-block;
-            /* UPDATED: Uses secondary color */
             background: rgba(208, 0, 255, 0.15);
             color: var(--neon-secondary);
             padding: 0.25rem 0.75rem;
@@ -775,13 +763,11 @@
         .cert-card {
             padding: 1.5rem;
             text-align: center;
-            /* Make non-link cards look the same */
             color: var(--text-light); 
             display: block;
         }
         .cert-card .cert-icon {
             font-size: 2.5rem;
-            /* UPDATED: Uses accent color */
             color: var(--neon-accent);
             margin-bottom: 1rem;
             width: 50px;
@@ -835,7 +821,6 @@
 
         .form-input:focus, .form-textarea:focus {
             outline: none;
-            /* UPDATED: Uses accent color */
             border-color: var(--neon-accent);
             box-shadow: 0 0 10px var(--neon-accent);
         }
@@ -849,13 +834,11 @@
             margin-top: 1.5rem;
             font-family: var(--font-mono);
             font-size: 1.1rem;
-            /* UPDATED: Uses accent color */
             color: var(--neon-accent);
             line-height: 1.8;
         }
 
         #contact-response .prompt {
-            /* UPDATED: Uses accent color */
             color: var(--neon-accent);
         }
 
@@ -889,7 +872,6 @@
         }
 
         footer .social-links a:hover {
-            /* UPDATED: Uses accent color */
             color: var(--neon-accent);
             text-shadow: 0 0 10px var(--neon-accent);
         }
@@ -929,7 +911,6 @@
             display: block;
         }
         #terminal-output .prompt {
-            /* UPDATED: Uses accent color */
             color: var(--neon-accent);
         }
         #terminal-output .response {
@@ -945,7 +926,6 @@
         }
 
         #terminal-prompt {
-            /* UPDATED: Uses accent color */
             color: var(--neon-accent);
             margin-right: 0.5rem;
         }
@@ -965,7 +945,7 @@
 
 
         /* --------------------------------- */
-        /* --- 7. NEW: PROJECT MODALS --- */
+        /* --- 7. PROJECT MODALS --- */
         /* --------------------------------- */
         #modal-overlay {
             position: fixed;
@@ -1137,10 +1117,13 @@
             <a href="#contact">Contact</a>
         </nav>
 
-        <!-- ======== NEW: THEME SELECTOR ======== -->
+        <!-- ======== UPDATED: THEME SELECTOR ======== -->
         <div id="theme-selector">
             <button id="theme-toggle-btn" aria-label="Select theme">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path fill-rule="evenodd" d="M9.69 2.023c-1.01.233-1.916.79-2.601 1.628-1.376 1.678-1.575 4.113-.568 5.934l8.37 11.642a.75.75 0 0 0 1.27-.551V3.75a.75.75 0 0 0-.75-.75h-5.25a.75.75 0 0 0-.422.128L9.69 2.023ZM3.75 3.125a.75.75 0 0 1 .75-.75h5.25a.75.75 0 0 1 .422.128l.47.34c-.168.042-.335.09-.498.146-1.063.366-2.022.992-2.766 1.868-1.528 1.792-1.74 4.382-.61 6.36l8.369 11.643a.75.75 0 0 1-1.27.551l-8.37-11.642a8.91 8.91 0 0 1-.84-1.127C3.17 12.373 2.25 9.074 2.25 6.75v-2.25a.75.75 0 0 1 .75-.75h.75Z" clip-rule="evenodd" /></svg>
+                <!-- New Paint Palette Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                    <path d="M12 3a9 9 0 0 0-9 9c0 7.72 9 12 9 12s9-4.28 9-12a9 9 0 0 0-9-9ZM8 11a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm4 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm4 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/>
+                </svg>
             </button>
             <div id="theme-options" class="hidden">
                 <div class="theme-swatch" data-theme="theme-cyan" style="--swatch-color: var(--color-cyan);"></div>
@@ -1167,9 +1150,12 @@
             <h2>Accessing Profile</h2>
             <p class="section-subtitle">Who I am and what drives me. This is the core code of my professional identity.</p>
             <div class="profile-content">
+                <!-- ======== UPDATED: PROFILE BUBBLE ======== -->
                 <div id="hologram-avatar">
                     <img src="profile.jpg" alt="Tony Mathew">
+                    <span class="rotating-arc"></span> <!-- The new rotating element -->
                 </div>
+                <!-- ======== END: PROFILE BUBBLE ======== -->
                 <div id="profile-bio">
                     <h3>[ Tony Mathew ]</h3>
                     <p>
@@ -1180,14 +1166,12 @@
                     </p>
                     <a href="https://drive.google.com/file/d/1zP1wsoHGb8I_LC76UpzgvBYP9_MTOdY8/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Download Profile (PDF)</a>
                 
-                    <!-- ======== NEW: CORE DIRECTIVES ======== -->
                     <div class="core-directives">
                         <h4>// Core Directives</h4>
                         <p><span>01:</span> SIMPLIFY_COMPLEXITY</p>
                         <p><span>02:</span> DRIVE_IMPROVEMENT</p>
                         <p><span>03:</span> ENSURE_INTEGRITY</p>
                     </div>
-                    <!-- ======== END: CORE DIRECTIVES ======== -->
                 </div>
             </div>
         </section>
@@ -1323,7 +1307,6 @@
             <p class="section-subtitle">Side quests and personal projects where I test new skills and build new things.</p>
             
             <div id="project-grid">
-                <!-- ======== UPDATED: Added data-modal attribute ======== -->
                 <div class="glass-card project-card" data-modal="project-1">
                     <div class="project-visual">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" /></svg>
@@ -1342,9 +1325,13 @@
                     <p>Led a 4-person team to analyze Netflix's organizational design. Produced a 30+ page report...</p>
                 </div>
                 
+                <!-- ======== UPDATED: PROJECT ICON ======== -->
                 <div class="glass-card project-card" data-modal="project-3">
                     <div class="project-visual">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A9.065 9.065 0 0 1 6 18.719m12 0a9.065 9.065 0 0 0-6-2.179M12 3a3 3 0 0 0-3 3v.172A4.5 4.5 0 0 0 6 10.5v.149c0 .412.02.818.056 1.214A9.07 9.07 0 0 0 6 18.72M12 3v1.72l-.047.03a4.5 4.5 0 0 0-4.19 4.19l-.03.047V10.5A4.5 4.5 0 0 0 6 6.328v-.158A3 3 0 0 0 3 6V3m9 0a3 3 0 0 0 3 3v.172A4.5 4.5 0 0 1 18 10.5v.149c0 .412-.02.818-.056 1.214A9.07 9.07 0 0 1 18 18.72m-6-15.72v1.72l.047.03a4.5 4.5 0 0 1 4.19 4.19l.03.047V10.5A4.5 4.5 0 0 1 18 6.328v-.158A3 3 0 0 1 21 6V3m-9 0h.008v.008H12V3Z" /></svg>
+                        <!-- New Clipboard-List Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h.01M15 12h.01M10.5 16.5h.01M13.5 16.5h.01M16.5 10.5h.01M7.5 10.5h.01M7.5 16.5h.01m-3.01-3h.01M3.75 12h.01M3.75 16.5h.01m12.01-3h.01M16.5 16.5h.01M10.5 12h3M13.5 10.5h-3M10.5 7.5h3M7.5 7.5h.01M7.5 13.5h.01M7.5 10.5h.01M10.5 10.5h.01M13.5 13.5h.01M13.5 7.5h.01M16.5 7.5h.01M16.5 13.5h.01M16.5 10.5h.01M4.5 21a3 3 0 0 0 3 3h9a3 3 0 0 0 3-3v-1.5a3 3 0 0 0-3-3h-9a3 3 0 0 0-3 3v1.5Zm0-13.5a3 3 0 0 0 3 3h9a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3h-9a3 3 0 0 0-3 3v1.5Z" />
+                        </svg>
                     </div>
                     <span class="project-tag">Academic Researcher</span>
                     <h3>Workplace Stress Study</h3>
@@ -1358,7 +1345,6 @@
             <p class="section-subtitle">Official certifications and qualifications I've earned to level up my skills.</p>
             
             <div id="certification-grid">
-                <!-- ======== UPDATED: Made cards into links ======== -->
                 <a href="https://www.coursera.org/account/accomplishments/professional-cert/certificate/CG1NJ7HJSX1Y" target="_blank" rel="noopener noreferrer" class="glass-card cert-card">
                     <div class="cert-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.745 3.745 0 0 1 3.296-1.043A3.745 3.745 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.745 3.745 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" /></svg>
@@ -1367,7 +1353,6 @@
                     <p>Issued by: <strong>Google</strong></p>
                 </a>
                 
-                <!-- Vanderbilt cert (no link provided, so it's not a link) -->
                 <div class="glass-card cert-card">
                     <div class="cert-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.745 3.745 0 0 1 3.296-1.043A3.745 3.745 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.745 3.745 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" /></svg>
@@ -1425,7 +1410,8 @@
             <a href="https://linkedin.com/in/tony-mathew-tm747" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.783-1.75-1.75s.784-1.75 1.75-1.75 1.75.783 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
             </a>
-            <a href="mailto:tonymathew30@gmail.com" aria-label="Email">
+            <!-- ======== UPDATED: EMAIL ADDRESS ======== -->
+            <a href="mailto:tonymathew360@gmail.com" aria-label="Email">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3v18h24v-18h-24zm21.518 4.288l-9.518 7.712-9.518-7.712h19.036zm-19.518 12.712v-10.898l9.518 7.712 9.518-7.712v10.898h-19.036z"/></svg>
             </a>
         </div>
@@ -1443,7 +1429,7 @@
         </div>
     </div>
 
-    <!-- ======== NEW: PROJECT MODALS ======== -->
+    <!-- ======== PROJECT MODALS ======== -->
     <div id="modal-overlay" class="hidden">
         <div id="modal-content" class="glass-card">
             <button id="modal-close-btn" aria-label="Close modal">&times;</button>
@@ -1454,10 +1440,7 @@
     </div>
     <!-- ======== END: PROJECT MODALS ======== -->
 
-    <!--
-        Modal Content Definitions
-        This is a clean way to store the modal HTML content.
-    -->
+    <!-- Modal Content Definitions -->
     <template id="modal-project-1">
         <span class="project-tag">Creator & Project Lead</span>
         <h3>Focus Loop - Android App</h3>
@@ -1500,7 +1483,7 @@
             const bootScreen = document.getElementById('boot-screen');
             const bootText = document.getElementById('boot-text');
 
-            // --- 1. BOOT SEQUENCE (UPDATED: Faster) ---
+            // --- 1. BOOT SEQUENCE ---
             if (bootScreen) {
                 const typedBoot = new Typed('#boot-text', {
                     strings: [
@@ -1515,7 +1498,7 @@
                     onComplete: () => {
                         setTimeout(() => {
                             bootScreen.classList.add('hidden');
-                        }, 200); // UPDATED: Faster (was 1000ms)
+                        }, 200); // Faster boot time
                     }
                 });
             }
@@ -1598,7 +1581,8 @@
                         if (responseOk) {
                             contactResponse.innerHTML = '<span class="prompt">></span> TRANSMITTING... COMPLETE.<br><span class="prompt">></span> TRANSMISSION SENT SUCCESSFULLY.<br><span class="prompt">></span> Thank you. I will get back to you shortly.';
                         } else {
-                            contactResponse.innerHTML = '<span class="prompt" style="color: #ff4136;">></span> ERROR: TRANSMISSION FAILED.<br><span class="prompt">></span> Please try again later or contact me directly at <a href="mailto:tonymathew30@gmail.com">tonymathew30@gmail.com</a>.';
+                            // ======== UPDATED: EMAIL ADDRESS ========
+                            contactResponse.innerHTML = '<span class="prompt" style="color: #ff4136;">></span> ERROR: TRANSMISSION FAILED.<br><span class="prompt">></span> Please try again later or contact me directly at <a href="mailto:tonymathew360@gmail.com">tonymathew360@gmail.com</a>.';
                         }
                     }, 1500);
                 });
@@ -1629,7 +1613,6 @@
                         this.y += this.speedY;
                     }
                     draw() {
-                        // UPDATED: Use accent variable
                         ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--neon-accent') + '80'; // '80' for 50% opacity
                         ctx.beginPath();
                         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
@@ -1684,11 +1667,10 @@
             }
 
             apply3DTilt('.skill-card');
-            // Only apply tilt to non-link/modal cards
-            apply3DTilt('.cert-card:not(a)'); 
+            apply3DTilt('.cert-card:not(a)'); // Only apply tilt to non-link certs
             
             
-            // --- 8. TERMINAL MODE EASTER EGG (UPGRADED) ---
+            // --- 8. TERMINAL MODE EASTER EGG ---
             const terminalMode = document.getElementById('terminal-mode');
             const terminalInput = document.getElementById('terminal-input');
             const terminalOutput = document.getElementById('terminal-output');
@@ -1726,7 +1708,7 @@
                                             "&nbsp;&nbsp;ls&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- List file sections.<br>" + 
                                             "&nbsp;&nbsp;status&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Check system health.<br>" + 
                                             "&nbsp;&nbsp;clear&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Clear the terminal screen.<br>" +
-                                            "&nbsp;&H;help&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Show this help message.");
+                                            "&nbsp;&nbsp;help&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Show this help message.");
                             break;
                         case 'whoami':
                             printToTerminal("Accessing identity...<br>Subject: Tony Mathew<br>Designation: Operations Specialist, AI Ops<br>Status: Active");
@@ -1743,7 +1725,7 @@
                                             "&nbsp;&nbsp;[experience.log]<br>" +
                                             "&nbsp;&nbsp;[skills.tree]<br>" +
                                             "&nbsp;&nbsp;[projects.dat]<br>" +
-                                            "&nbsp;&nbsp;[achievements.pkg]<br>" + 
+                                            "&nbsp;&Z;[achievements.pkg]<br>" + 
                                             "&nbsp;&nbsp;[contact.frm]");
                             break;
                         case 'status': 
@@ -1795,7 +1777,7 @@
                 });
             }
             
-            // --- 9. NEW: THEME SELECTOR ---
+            // --- 9. THEME SELECTOR ---
             const themeToggleButton = document.getElementById('theme-toggle-btn');
             const themeOptions = document.getElementById('theme-options');
 
@@ -1826,14 +1808,13 @@
                 });
             });
 
-            // Close dropdown if clicking outside
             document.addEventListener('click', (e) => {
                 if (!themeToggleButton.contains(e.target) && !themeOptions.contains(e.target)) {
                     themeOptions.classList.add('hidden');
                 }
             });
 
-            // --- 10. NEW: PROJECT MODALS ---
+            // --- 10. PROJECT MODALS ---
             const modalOverlay = document.getElementById('modal-overlay');
             const modalCloseBtn = document.getElementById('modal-close-btn');
             const modalBody = document.getElementById('modal-body');
@@ -1860,7 +1841,7 @@
                 }
             });
 
-            // --- 11. NEW: ACTIVE NAV ON SCROLL ---
+            // --- 11. ACTIVE NAV ON SCROLL ---
             const navLinks = document.querySelectorAll('#main-nav a');
             const allSections = document.querySelectorAll('section');
 
