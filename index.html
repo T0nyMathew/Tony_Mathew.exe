@@ -500,6 +500,34 @@
         #profile-bio .btn {
             margin-top: 1.5rem;
         }
+        
+        /* ======== NEW: CURRENT STATUS MODULE ======== */
+        .current-status {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 255, 106, 0.1);
+            border: 1px solid rgba(0, 255, 106, 0.3);
+            border-radius: 6px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: #afffdb;
+        }
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            background: var(--color-green);
+            border-radius: 50%;
+            margin-right: 0.75rem;
+            animation: pulse-green 2s infinite;
+        }
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(0, 255, 106, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 255, 106, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 255, 106, 0); }
+        }
+        /* ======== END: CURRENT STATUS MODULE ======== */
 
         .core-directives {
             margin-top: 2.5rem;
@@ -684,6 +712,16 @@
         .btn-more:hover .icon-line-v {
             background: var(--neon-accent);
         }
+        
+        /* ======== NEW: EDUCATION SECTION STYLES ======== */
+        #education .mission-card {
+            padding-left: 0;
+            max-width: 800px;
+        }
+        #education .mission-card::before {
+             display: none; /* Hide the timeline dot */
+        }
+        /* ======== END: EDUCATION SECTION STYLES ======== */
 
 
         /* --- SKILLS --- */
@@ -1107,6 +1145,10 @@
             #logo {
                 font-size: 1.25rem;
             }
+            .current-status {
+                font-size: 0.85rem;
+                padding: 0.5rem 0.75rem;
+            }
 
             /* Mobile Nav Menu */
             #main-nav {
@@ -1162,6 +1204,14 @@
                 left: 10px; 
             }
             
+            /* Education section mobile */
+            #education .mission-card {
+                padding-left: 0;
+            }
+            #education .mission-card::before {
+                display: none;
+            }
+            
             /* Full-width buttons */
             .cta-buttons { 
                 flex-direction: column; 
@@ -1204,6 +1254,7 @@
             <a href="#home">Home</a>
             <a href="#profile">Profile</a>
             <a href="#experience">Experience</a>
+            <a href="#education">Education</a> <!-- NEW -->
             <a href="#skills">Skills</a>
             <a href="#projects">Projects</a>
             <a href="#certifications">Achievements</a>
@@ -1212,10 +1263,8 @@
             <a href="#contact">Contact</a>
         </nav>
 
-        <!-- ======== UPDATED: THEME SELECTOR ICON ======== -->
         <div id="theme-selector">
             <button id="theme-toggle-btn" aria-label="Select theme">
-                <!-- New Dynamic Color Circle -->
                 <div class="dynamic-color-circle"></div>
             </button>
             <div id="theme-options" class="hidden">
@@ -1224,7 +1273,6 @@
                 <div class="theme-swatch" data-theme="theme-green" style="--swatch-color: var(--color-green);"></div>
             </div>
         </div>
-        <!-- ======== END: THEME SELECTOR ======== -->
 
         <button id="menu-toggle" aria-label="Open menu">&#9776;</button>
     </header>
@@ -1247,9 +1295,16 @@
                     <img src="profile.jpg" alt="Tony Mathew">
                     <span class="rotating-arc"></span>
                 </div>
-                <!-- ======== UPDATED: Profile Bio Narrative ======== -->
                 <div id="profile-bio">
                     <h3>[ Tony Mathew ]</h3>
+                    
+                    <!-- ======== UPDATED: CURRENT STATUS MODULE ======== -->
+                    <div class="current-status">
+                        <span class="status-indicator"></span>
+                        STATUS: Open to Work. Actively seeking new opportunities in Data Analytics, Digital Marketing, and Creative Operations.
+                    </div>
+                    <!-- ======== END: CURRENT STATUS MODULE ======== -->
+
                     <p>
                         Hello! I'm a strategic thinker who operates at the nexus of <strong>data analytics, marketing operations, and creative strategy</strong>. My career is built on a unique dual-passion: understanding the 'why' behind the data and managing the 'how' of complex projects.
                     </p>
@@ -1271,7 +1326,6 @@
                         <p><span>03:</span> ENSURE_INTEGRITY</p>
                     </div>
                 </div>
-                <!-- ======== END: Updated Bio ======== -->
             </div>
         </section>
 
@@ -1338,13 +1392,22 @@
                     </div>
                 </div>
                 
+            </div>
+        </section>
+        
+        <!-- ======== NEW: EDUCATION SECTION ======== -->
+        <section id="education">
+            <h2>Core Training</h2>
+            <p class="section-subtitle">My foundational knowledge and formal education.</p>
+            
+            <div id="education-timeline"> <!-- Re-using style for consistency -->
                 <div class="mission-card">
                     <div class="glass-card">
                         <div class="mission-header">
-                            <h3>Tutorial: Business Foundations</h3>
+                            <h3>Bachelor of Business (BBA)</h3> 
                             <span>Graduated: 2023</span>
                         </div>
-                        <h4>@ MG University (BBA)</h4>
+                        <h4>@ MG University</h4>
                         <p class="mission-objective">
                             <strong>Objective:</strong> Master the fundamentals of business administration, organizational strategy, and management.
                             <br>
@@ -1352,9 +1415,9 @@
                         </p>
                     </div>
                 </div>
-
             </div>
         </section>
+        <!-- ======== END: EDUCATION SECTION ======== -->
 
         <section id="skills">
             <h2>Skill Tree</h2>
@@ -1374,7 +1437,6 @@
                     <h4>MS Office Suite (Expert)</h4>
                     <p>Advanced proficiency in Excel, PowerPoint, and Word for data analysis, presentations, and reports.</p>
                 </div>
-                <!-- ======== NEW: Video Editing Skill ======== -->
                 <div class="glass-card skill-card">
                     <h4>Video Editing</h4>
                     <p>Crafting compelling visual stories and editing high-quality video content for digital platforms.</p>
@@ -1427,7 +1489,6 @@
                 
                 <div class="glass-card project-card" data-modal="project-3">
                     <div class="project-visual">
-                        <!-- UPDATED: Icon for Stress Study -->
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg>
                     </div>
                     <span class="project-tag">Academic Researcher</span>
@@ -1435,7 +1496,6 @@
                     <p>Surveyed 50 employees to identify key stress triggers. Delivered a final report with actionable recommendations...</p>
                 </div>
 
-                <!-- ======== NEW: Portfolio Project ======== -->
                 <div class="glass-card project-card" data-modal="project-4">
                     <div class="project-visual">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5 0-4.5 16.5" /></svg>
@@ -1460,7 +1520,6 @@
                     <p>Issued by: <strong>Google</strong></p>
                 </a>
                 
-                <!-- ======== UPDATED: Vanderbilt Link ======== -->
                 <a href="https://coursera.org/share/6dee50a067a20e08b4134d0f6bf49c59" target="_blank" rel="noopener noreferrer" class="glass-card cert-card">
                     <div class="cert-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.745 3.745 0 0 1 3.296-1.043A3.745 3.745 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.745 3.745 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" /></svg>
@@ -1485,7 +1544,6 @@
                     <p>Issued by: <strong>Google</strong></p>
                 </a>
 
-                <!-- ======== NEW: Cert 1 ======== -->
                 <a href="https://coursera.org/share/b6eb980409c2fea558ffbef9569d8c43" target="_blank" rel="noopener noreferrer" class="glass-card cert-card">
                     <div class="cert-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.745 3.745 0 0 1 3.296-1.043A3.745 3.745 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.745 3.745 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" /></svg>
@@ -1494,7 +1552,6 @@
                     <p>Issued by: <strong>Google</strong></p>
                 </a>
 
-                <!-- ======== NEW: Cert 2 ======== -->
                 <a href="https://coursera.org/share/c32b9701ac1ea923d0820d6596038607" target="_blank" rel="noopener noreferrer" class="glass-card cert-card">
                     <div class="cert-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.745 3.745 0 0 1 3.296-1.043A3.745 3.745 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.745 3.745 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" /></svg>
@@ -1503,7 +1560,6 @@
                     <p>Issued by: <strong>Microsoft</strong></p>
                 </a>
 
-                <!-- ======== NEW: Cert 3 ======== -->
                 <a href="https://coursera.org/share/e0bab7b95c845f4f4016f3d61abd1782" target="_blank" rel="noopener noreferrer" class="glass-card cert-card">
                     <div class="cert-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.745 3.745 0 0 1 3.296-1.043A3.745 3.745 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.745 3.745 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" /></svg>
@@ -1515,7 +1571,6 @@
             </div>
         </section>
 
-        <!-- ======== UPDATED: LANGUAGES SECTION ======== -->
         <section id="languages">
             <h2>Language Packs</h2>
             <p class="section-subtitle">Communication protocols I have installed and actively use.</p>
@@ -1547,12 +1602,10 @@
             </div>
         </section>
 
-        <!-- ======== UPDATED: HOBBIES SECTION ======== -->
         <section id="hobbies">
             <h2>Hobbies & Interests</h2>
             <p class="section-subtitle">Personal subroutines that I run to decompress and innovate.</p>
             <div class="info-grid">
-                <!-- New Hobbies -->
                 <div class="glass-card info-card">
                     <h4>Reading</h4>
                     <p>Exploring sci-fi, self-improvement, and personal development books.</p>
@@ -1565,7 +1618,6 @@
                     <h4>Learning</h4>
                     <p>Actively learning new skills, from languages (Spanish/Japanese) to creative tech (video editing).</p>
                 </div>
-                <!-- Old Hobbies -->
                 <div class="glass-card info-card">
                     <h4>Product Design</h4>
                     <p>Sketching out and designing app interfaces and user experiences, as seen in my 'Focus Loop' project.</p>
@@ -1612,7 +1664,6 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.783-1.75-1.75s.784-1.75 1.75-1.75 1.75.783 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
             </a>
             
-            <!-- ======== UPDATED: Email Link ======== -->
             <a href="mailto:tonymathew360@gmail.com" aria-label="Email">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3v18h24v-18h-24zm21.518 4.288l-9.518 7.712-9.518-7.712h19.036zm-19.518 12.712v-10.898l9.518 7.712 9.518-7.712v10.898h-19.036z"/></svg>
                 <span class="email-text">tonymathew360@gmail.com</span>
@@ -1647,12 +1698,13 @@
     <template id="modal-project-1">
         <span class="project-tag">Creator & Project Lead</span>
         <h3>Focus Loop - Android App</h3>
-        <p>Spearheaded the end-to-end product lifecycle for a productivity app. Architected the user experience (UI/UX) and defined the complete go-to-market plan and freemium model.</p>
+        <!-- ======== UPDATED: Project Text ======== -->
+        <p>Spearheaded the end-to-end product lifecycle for a productivity app, from concept and UI/UX architecture to a production-ready build and go-to-market plan.</p>
         <hr>
         <h4>// Case Study</h4>
         <p><strong>Problem:</strong> Existing productivity apps were either too complex or too simple, lacking features that genuinely aided a "flow state."</p>
         <p><strong>Solution:</strong> Architected a user-centric experience focused on minimizing friction. Designed and prototyped key features like a 'Zen/Plus' mode and 'One-Tap Focus' to optimize user workflow and engagement.</p>
-        <p><strong>Outcome:</strong> Utilized AI-assisted development tools to accelerate the software development lifecycle, managing iterative sprints for UI/UX enhancements, feature implementation, and debugging to deliver a high-performance, stable application. Defined a clear path to long-term revenue via a freemium model.</p>
+        <p><strong>Outcome:</strong> Utilized AI-assisted development tools to accelerate the software development lifecycle, managing iterative sprints for UI/UX enhancements, feature implementation, and debugging to deliver a high-performance, **stable application ready for launch.**</p>
     </template>
     
     <template id="modal-project-2">
@@ -1677,7 +1729,6 @@
         <p><strong>Outcome:</strong> The final report identified "ambiguous role expectations" and "inefficient communication channels" as the top stressors. The actionable recommendations, which focused on structured check-ins and a centralized info hub, were praised for their practicality, earning a 97/100 score.</p>
     </template>
     
-    <!-- ======== NEW: Portfolio Project Modal ======== -->
     <template id="modal-project-4">
         <span class="project-tag">Designer & Developer</span>
         <h3>TONY_MATHEW.EXE (This Website)</h3>
@@ -1939,9 +1990,10 @@
                             printToTerminal("Listing sections:<br>" +
                                             "&nbsp;&nbsp;[profile.sec]<br>" +
                                             "&nbsp;&nbsp;[experience.log]<br>" +
+                                            "&nbsp;&nbsp;[education.dat]<br>" + // NEW
                                             "&nbsp;&nbsp;[skills.tree]<br>" +
-                                            "&nbsp;&nbsp;[projects.dat]<br>" +
-                                            "&nbsp;&nbsp;[achievements.pkg]<br>" + 
+                                            "&nbsp;&nbsp;[projects.dat]<br>" + // DEBUGGED
+                                            "&nbsp;&bsp;[achievements.pkg]<br>" + 
                                             "&nbsp;&nbsp;[languages.pkg]<br>" + 
                                             "&nbsp;&nbsp;[hobbies.dat]<br>" +   
                                             "&nbsp;&nbsp;[contact.frm]");
