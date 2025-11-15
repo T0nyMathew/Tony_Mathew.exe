@@ -273,6 +273,7 @@
             color: var(--text-light);
             font-size: 1.5rem;
             cursor: pointer;
+            z-index: 111; /* Ensure it's on top */
         }
 
         /* ======== THEME SELECTOR STYLES ======== */
@@ -293,7 +294,6 @@
         #theme-toggle-btn:hover {
             color: var(--neon-accent);
         }
-        /* NEW: Style for the dynamic color circle */
         #theme-toggle-btn .dynamic-color-circle {
             width: 18px;
             height: 18px;
@@ -881,7 +881,6 @@
             flex-wrap: wrap;
         }
 
-        /* UPDATED: Combined link for icon + text */
         footer .social-links a {
             color: var(--text-medium);
             transition: all 0.3s;
@@ -903,7 +902,6 @@
             font-size: 0.95rem;
             transition: color 0.3s;
         }
-        /* Make text glow on hover of the *entire* link */
         footer .social-links a:hover .email-text {
              color: var(--neon-accent);
         }
@@ -1067,6 +1065,8 @@
         /* --------------------------------- */
         /* --- 8. RESPONSIVE --- */
         /* --------------------------------- */
+        
+        /* Medium Screens (Tablets) */
         @media (max-width: 900px) {
             h2 { font-size: 2.5rem; }
             #home h1 { font-size: 3.5rem; }
@@ -1075,7 +1075,40 @@
             #hologram-avatar { margin: 0 auto 2rem auto; max-width: 250px; } 
         }
 
+        /* Small Screens (Phones) */
         @media (max-width: 768px) {
+            /* ======== MOBILE OPTIMIZATIONS ======== */
+            
+            /* Tighter padding */
+            section { 
+                padding: 3.5rem 1.5rem; 
+            }
+            #main-header {
+                padding: 1rem 1.5rem;
+            }
+            
+            /* Smaller, cleaner typography */
+            h2 { 
+                font-size: 2rem; 
+            }
+            h3 {
+                font-size: 1.5rem;
+            }
+            #home h1 { 
+                font-size: 2.5rem; 
+            }
+            #home .subtitle {
+                font-size: 1.1rem;
+            }
+            p, .skill-card p, .info-card p, .mission-objective, .mission-details {
+                font-size: 0.95rem;
+                line-height: 1.6;
+            }
+            #logo {
+                font-size: 1.25rem;
+            }
+
+            /* Mobile Nav Menu */
             #main-nav {
                 display: none;
                 flex-direction: column;
@@ -1084,33 +1117,59 @@
                 left: 0;
                 width: 100%;
                 background: var(--bg-dark);
-                padding: 1rem 10%;
+                padding: 1rem 1.5rem;
                 border-bottom: 1px solid var(--border-glass);
             }
             #main-nav.active {
                 display: flex;
             }
+            /* Better tap targets */
+            #main-nav a {
+                padding: 0.75rem 0;
+                display: block;
+            }
+
             #menu-toggle {
                 display: block;
             }
             
-            section { padding: 4rem 5%; }
-            h2 { font-size: 2.2rem; }
-            #home h1 { font-size: 2.8rem; }
-            
-            .mission-header { flex-direction: column; align-items: flex-start; }
-            .mission-header span { margin-top: 0.5rem; }
-            .mission-card { padding-left: 2.5rem; }
+            /* Force single-column grids */
+            #skill-tree, 
+            .info-grid, 
+            #project-grid, 
+            #certification-grid {
+                grid-template-columns: 1fr;
+            }
+
+            /* Timeline adjustments */
+            .mission-header { 
+                flex-direction: column; 
+                align-items: flex-start; 
+            }
+            .mission-header span { 
+                margin-top: 0.5rem; 
+            }
+            .mission-card { 
+                padding-left: 2.5rem; 
+            }
             .mission-card::before { 
                 width: 18px; 
                 height: 18px; 
                 left: 2px;
-                top: 2.5rem; /* Matches mobile H3 alignment */
+                top: 2.1rem; /* Re-aligned for mobile h3 */
             }
-            #experience-timeline::before { left: 10px; }
+            #experience-timeline::before { 
+                left: 10px; 
+            }
             
-            .cta-buttons { flex-direction: column; width: 100%; }
-            .btn { text-align: center; }
+            /* Full-width buttons */
+            .cta-buttons { 
+                flex-direction: column; 
+                width: 100%; 
+            }
+            .btn { 
+                text-align: center; 
+            }
 
             /* Move theme selector into mobile menu */
             #theme-selector {
@@ -1124,6 +1183,7 @@
                 background: none;
                 backdrop-filter: none;
             }
+            /* ======== END: MOBILE OPTIMIZATIONS ======== */
         }
     </style>
 </head>
@@ -1880,7 +1940,7 @@
                                             "&nbsp;&nbsp;[profile.sec]<br>" +
                                             "&nbsp;&nbsp;[experience.log]<br>" +
                                             "&nbsp;&nbsp;[skills.tree]<br>" +
-                                            "&nbsp;&s.dat]<br>" +
+                                            "&nbsp;&nbsp;[projects.dat]<br>" +
                                             "&nbsp;&nbsp;[achievements.pkg]<br>" + 
                                             "&nbsp;&nbsp;[languages.pkg]<br>" + 
                                             "&nbsp;&nbsp;[hobbies.dat]<br>" +   
