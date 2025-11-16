@@ -104,7 +104,7 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACXSURBVGhD7c4xEQAgDMCw/6f7b1hHIYybackm13V9s21tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbd/cbQY0A8gLhT8kAAAAASUVORK5CYII=');
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACXSURBVGhD7c4xEQAgDMCw/6f7b1hHIYybackm13V9s21tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbd/cbQY0A8gLhT8kAAAAASUVORK5CYII=');
             opacity: 0.03;
             z-index: 10000;
         }
@@ -1191,7 +1191,7 @@
                     <p>
                         I bridge the gap—I bring the <strong>analytical mindset</strong> of a data pro, the <strong>strategic coordination</strong> of a project manager, and the <strong>creative vision</strong> of a product designer.
                     </p>
-                    <a href="https://drive.google.com/file/d/1zP1wsoHGb8I_LC76UpzgvBYP9_MTOdY8/view?usp=sharing" target="_blank" class="btn btn-secondary">Download Profile (PDF)</a>
+                    <a href="https://drive.google.com/file/d/1ZM0CfMVo6Bd06f92bks9ZdKhZoZoku3L/view?usp=sharing" target="_blank" class="btn btn-secondary">Download Profile (PDF)</a>
                 
                     <div class="core-directives">
                         <h4>// Core Directives</h4>
@@ -1559,14 +1559,6 @@
         <p>&copy; 2025 Tony Mathew. System file running.</p>
     </footer>
     
-    <!-- Modals & Overlays -->
-    <div id="modal-overlay" class="hidden">
-        <div id="modal-content" class="glass-card">
-            <button id="modal-close-btn" aria-label="Close modal">&times;</button>
-            <div id="modal-body"></div>
-        </div>
-    </div>
-
     <div id="terminal-mode">
         <div id="terminal-output">
             <span class="terminal-line response">Welcome to Terminal Mode. (Press '~' or 'Esc' to exit)</span>
@@ -1578,7 +1570,18 @@
         </div>
     </div>
 
-    <!-- Templates -->
+    <!-- ======== PROJECT MODALS ======== -->
+    <div id="modal-overlay" class="hidden">
+        <div id="modal-content" class="glass-card">
+            <button id="modal-close-btn" aria-label="Close modal">&times;</button>
+            <div id="modal-body">
+                <!-- Content will be injected by JS -->
+            </div>
+        </div>
+    </div>
+    <!-- ======== END: PROJECT MODALS ======== -->
+
+    <!-- Modal Content Definitions -->
     <template id="modal-project-1">
         <span class="project-tag">Creator & Project Lead</span>
         <h3>Focus Loop - Android App</h3>
@@ -1829,7 +1832,7 @@
                 });
             }
             apply3DTilt('.skill-card');
-            apply3DTilt('.cert-card');
+            apply3DTilt('.cert-card:not(a)');
             apply3DTilt('.info-card');
             apply3DTilt('.project-card');
 
