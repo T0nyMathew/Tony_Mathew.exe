@@ -104,7 +104,6 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            /* Minimal base64 scanline pattern */
             background: repeating-linear-gradient(
                 0deg,
                 rgba(0,0,0,0.1),
@@ -170,13 +169,14 @@
             gap: 1.5rem;
         }
 
-        #main-nav {
+        /* DESKTOP MENU */
+        #desktop-nav {
             display: flex;
             gap: 2rem; 
             align-items: center;
         }
 
-        #main-nav a {
+        #desktop-nav a {
             font-family: var(--font-body);
             font-weight: 600;
             font-size: 0.95rem;
@@ -184,16 +184,16 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             position: relative;
-            white-space: nowrap; /* Prevents links from breaking */
+            white-space: nowrap;
         }
 
-        #main-nav a:hover, 
-        #main-nav a.active {
+        #desktop-nav a:hover, 
+        #desktop-nav a.active {
             color: var(--neon-accent);
             text-shadow: 0 0 8px var(--neon-accent);
         }
 
-        #main-nav a::after {
+        #desktop-nav a::after {
             content: '';
             position: absolute;
             width: 0;
@@ -203,19 +203,64 @@
             background-color: var(--neon-accent);
             transition: width 0.3s ease;
         }
-        #main-nav a:hover::after,
-        #main-nav a.active::after {
+        #desktop-nav a:hover::after,
+        #desktop-nav a.active::after {
             width: 100%;
         }
 
+        /* HAMBURGER MENU CONTAINER */
+        #hamburger-nav-container {
+            position: relative;
+        }
+        
         #menu-toggle {
-            display: none;
+            display: flex; /* Always show, but content changes */
             background: none;
             border: none;
             color: var(--text-light);
             font-size: 1.8rem;
             cursor: pointer;
+            z-index: 112;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* The Dropdown Menu */
+        #mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--bg-dark);
+            border: 1px solid var(--border-glass);
+            padding: 1rem;
+            border-radius: 8px;
+            flex-direction: column;
+            min-width: 200px;
             z-index: 111;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        
+        #mobile-menu.active {
+            display: flex;
+        }
+
+        #mobile-menu a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--text-medium);
+            font-family: var(--font-body);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        #mobile-menu a:last-child {
+            border-bottom: none;
+        }
+        #mobile-menu a:hover {
+            color: var(--neon-accent);
+            background: rgba(255,255,255,0.03);
         }
 
         /* Theme Selector */
@@ -446,7 +491,6 @@
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
-        /* REMOVED: #hologram-avatar::before for static glow ring as requested */
 
         /* Bio */
         #profile-bio p { margin-bottom: 1.2rem; font-size: 1.05rem; color: var(--text-medium); }
@@ -699,117 +743,41 @@
         /* =========================================
            11. MOBILE OPTIMIZATIONS
            ========================================= */
-        
-        /* ======== NEW, WIDER BREAKPOINT FOR NAV ======== */
-        @media (max-width: 1100px) {
-            #main-nav {
-                display: none; /* Hide desktop nav */
-                flex-direction: column;
-                position: absolute;
-                top: 100%; /* Position below header */
-                left: 0;
-                width: 100%;
-                background: var(--bg-dark);
-                padding: 1rem 1.5rem;
-                border-bottom: 1px solid var(--border-glass);
-                gap: 0;
-            }
-            #main-nav.active {
-                display: flex; /* Show mobile nav when active */
-            }
-            #main-nav a {
-                display: block;
-                width: 100%;
-                padding: 0.75rem 0;
-            }
-            #menu-toggle {
-                display: block; /* Show hamburger menu */
-                margin-left: auto; /* Push to far right */
-            }
-            #theme-selector {
-                margin-left: 0; /* Remove desktop margin */
-            }
-            #main-header {
-                justify-content: space-between; /* Re-enable space-between */
-            }
-        }
-        
-        /* Medium Screens (Tablets) */
-        @media (max-width: 900px) {
-            h2 { font-size: 2.5rem; }
-            #home h1 { font-size: 3.5rem; }
-            #home .subtitle { font-size: 1.2rem; }
-            #profile .profile-content { grid-template-columns: 1fr; }
-            #hologram-avatar { margin: 0 auto 2rem auto; max-width: 250px; } 
-        }
-
-        /* Small Screens (Phones) */
         @media (max-width: 768px) {
-            /* Tighter padding */
-            section { 
-                padding: 3.5rem 1.5rem; 
-            }
-            #main-header {
-                padding: 1rem 1.5rem;
-            }
+            h1 { font-size: 3rem !important; }
+            h2 { font-size: 2.2rem; }
+            h3 { font-size: 1.5rem; }
+            .section-subtitle { font-size: 1rem; }
+
+            /* Header & Nav */
+            #main-header { padding: 1rem 1.5rem; justify-content: space-between; gap: 1rem; }
+            #logo { font-size: 1.25rem; margin-right: 0; }
             
-            /* Smaller, cleaner typography */
-            h2 { 
-                font-size: 2rem; 
-            }
-            h3 {
-                font-size: 1.5rem;
-            }
-            #home h1 { 
-                font-size: 2.5rem; 
-            }
-            #home .subtitle {
-                font-size: 1.1rem;
-            }
-            p, .skill-card p, .info-card p, .mission-objective, .mission-details {
-                font-size: 0.95rem;
-                line-height: 1.6;
-            }
-            #logo {
-                font-size: 1.25rem;
-            }
-            .current-status {
-                font-size: 0.85rem;
-                padding: 0.5rem 0.75rem;
+            /* Collapsible Nav */
+            #desktop-nav { display: none; }
+            #mobile-menu { 
+                top: 100%; right: 0; border-top-left-radius: 0; border-top-right-radius: 0;
+                width: 100%; left: 0; /* Full width dropdown */
             }
 
-            /* Mobile Nav Menu (already handled by 1100px) */
-            /* We just need to adjust the theme selector position */
-            #theme-selector {
-                margin-left: 0; /* Reset from desktop */
-                margin-right: 0.5rem; /* Space between selector and hamburger */
-            }
-            #menu-toggle {
-                margin-left: 0; /* Reset from desktop */
-            }
+            /* Ensure menu toggle is on the right */
+            #menu-toggle { display: flex; margin-left: auto; }
+            
+            /* Theme selector */
+            #theme-selector { margin-left: auto; margin-right: 1rem; }
+            #theme-options { position: static; padding: 0.5rem; border: none; background: rgba(255,255,255,0.05); }
 
             /* Layout */
-            .profile-content { text-align: center; }
+            .profile-content, .mission-header { grid-template-columns: 1fr; text-align: center; }
+            .profile-content { gap: 2rem; }
+            .mission-header { flex-direction: column; align-items: flex-start; }
+            .mission-header h3 { font-size: 1.3rem; }
+            .mission-header span { margin-top: 0.25rem; }
             #hologram-avatar { width: 200px; height: 200px; }
             .core-directives { text-align: left; }
-
-            /* Timeline adjustments */
-            .mission-header { 
-                flex-direction: column; 
-                align-items: flex-start; 
-            }
-            .mission-header span { 
-                margin-top: 0.5rem; 
-            }
-            .mission-card { 
-                padding-left: 0; /* Remove padding */
-            }
-            .mission-card::before { 
-                display: none; /* Hide dot */
-            }
-            #experience-timeline::before { 
-                display: none; /* Hide line */
-            }
+            .mission-card { padding-left: 0; }
+            .mission-card::before { display: none; }
+            #experience-timeline::before { display: none; }
             
             /* Education section mobile */
             #education .mission-card { padding-left: 0; }
@@ -820,13 +788,9 @@
                 grid-template-columns: 1fr; /* Force single column */
             }
             
-            .cta-buttons { 
-                flex-direction: column; 
-                width: 100%; 
-            }
-            .btn { 
-                text-align: center; 
-            }
+            section { padding: 3.5rem 1.5rem; }
+            .cta-buttons { flex-direction: column; width: 100%; }
+            .btn { width: 100%; text-align: center; }
         }
     </style>
 </head>
@@ -860,21 +824,32 @@
             </div>
             
             <!-- Desktop Nav (Collapses on Mobile) -->
-            <nav id="main-nav">
-                <a href="#home">Home</a>
+            <nav id="desktop-nav">
+                <a href="#home"><span style="font-size:1.2rem; vertical-align:middle;">🏠</span></a>
                 <a href="#profile">Profile</a>
                 <a href="#experience">Experience</a>
-                <a href="#education">Education</a>
-                <a href="#skills">Skills</a>
                 <a href="#projects">Projects</a>
-                <a href="#certifications">Achievements</a>
-                <a href="#languages">Languages</a>
-                <a href="#hobbies">Hobbies</a>
-                <a href="#contact">Contact</a>
+                <a href="#skills">Skills</a>
             </nav>
 
-            <!-- Hamburger Menu -->
-            <button id="menu-toggle" aria-label="Toggle Menu">&#9776;</button>
+            <!-- Hamburger Menu Container -->
+            <div id="hamburger-nav-container">
+                <button id="menu-toggle" aria-label="Toggle Menu">&#9776;</button>
+                <nav id="mobile-menu">
+                    <!-- Repeats main links for mobile view -->
+                    <a href="#home">Home</a>
+                    <a href="#profile">Profile</a>
+                    <a href="#experience">Experience</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#skills">Skills</a>
+                    <!-- Extra links moved to hamburger on desktop too? No, per request just excess -->
+                    <a href="#education">Education</a>
+                    <a href="#certifications">Achievements</a>
+                    <a href="#languages">Languages</a>
+                    <a href="#hobbies">Hobbies</a>
+                    <a href="#contact">Contact</a>
+                </nav>
+            </div>
         </div>
     </header>
 
@@ -1054,7 +1029,7 @@
                     </div>
                     <span class="project-tag">Creator & Project Lead</span>
                     <h3>AccountaBill - Finance App</h3>
-                    <p>Designed a comprehensive mobile finance tracker focused on user accountability and intuitive expense visualization.</p>
+                    <p>Designed a comprehensive mobile finance tracker focused on user accountability and intuitive expense visualization. <strong>(In Progress)</strong></p>
                 </div>
 
                 <!-- NEW: JLab Lux Redesign -->
@@ -1223,6 +1198,7 @@
                     <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.783-1.75-1.75s.784-1.75 1.75-1.75 1.75.783 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
                 </svg>
             </a>
+            
             <a href="mailto:tonymathew360@gmail.com" class="social-link-item" aria-label="Email">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M0 3v18h24v-18h-24zm21.518 4.288l-9.518 7.712-9.518-7.712h19.036zm-19.518 12.712v-10.898l9.518 7.712 9.518-7.712v10.898h-19.036z"/>
@@ -1261,23 +1237,23 @@
     <template id="modal-project-5">
         <span class="project-tag">Creator & Project Lead</span>
         <h3>AccountaBill - Finance App</h3>
-        <p>Designed a comprehensive mobile finance tracker focused on user accountability and intuitive expense visualization.</p>
+        <p>We evolved AccountaBill from a novel sentence-based data entry concept into a fully functional, futuristic Flutter application.</p>
         <hr>
         <h4>// Case Study</h4>
         <p><strong>Objective:</strong> To create a financial tracking tool that simplifies expense management and promotes personal accountability.</p>
-        <p><strong>Solution:</strong> Developed a sleek, user-friendly interface that allows users to categorize expenses effortlessly, set budget limits, and visualize spending habits through interactive charts. Implemented features for recurring payments and goal setting to encourage financial discipline.</p>
-        <p><strong>Outcome:</strong> Delivered a functional prototype that received positive feedback for its intuitive design and actionable insights, empowering users to take control of their financial health.</p>
+        <p><strong>Solution:</strong> Starting with a web prototype to validate the core logic, we migrated to a robust mobile architecture integrated with Firebase for real-time cloud sync and authentication. The final product features a polished "Glassmorphism" UI with fluid animations, a smart prediction engine that auto-categorizes expenses, and a frictionless budgeting system enhanced by gamification elements like XP rewards and confetti, successfully transforming a utility tool into an engaging, intelligent financial companion.</p>
+        <p><strong>Outcome:</strong> Delivered a functional prototype that received positive feedback for its intuitive design and actionable insights, empowering users to take control of their financial health. This project is still a work in progress.</p>
     </template>
 
     <!-- NEW: JLab Lux App Redesign -->
     <template id="modal-project-6">
         <span class="project-tag">UI/UX Designer</span>
         <h3>JLab Lux App Redesign</h3>
-        <p>Revamped the user interface for JLab's premium audio app, focusing on minimalist aesthetics and improved usability.</p>
+        <p>We executed a full, high-fidelity redesign of the JLab mobile application prototype in Flutter, focusing on enhancing user experience and visual polish while maintaining 100% parity with all original features.</p>
         <hr>
         <h4>// Case Study</h4>
         <p><strong>Problem:</strong> The existing app interface was cluttered and difficult to navigate, detracting from the premium audio experience.</p>
-        <p><strong>Solution:</strong> Conducted user research to identify pain points and redesigned the app with a focus on minimalism and ease of use. Streamlined navigation, enhanced visual hierarchy, and introduced dark mode for a modern look and feel.</p>
+        <p><strong>Solution:</strong> The key changes involved shifting to a Dashboard-First UI, improving accessibility to primary controls (ANC, Spatial Audio) via interactive cards, integrating a premium Dark Theme with the Inter font, and meticulously replicating the precise interface and locking functionality of the 10-Band Equalizer for the product demonstration.</p>
         <p><strong>Outcome:</strong> The redesign resulted in a more engaging and intuitive user experience, aligning the app's aesthetic with JLab's premium brand identity and improving user satisfaction scores.</p>
     </template>
 
