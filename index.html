@@ -167,11 +167,13 @@
             display: flex;
             align-items: center;
             gap: 1.5rem;
+            flex-grow: 1;
+            justify-content: flex-end;
         }
 
         #main-nav {
             display: flex;
-            gap: 2rem; 
+            gap: 2.5rem; /* Increased gap for better spacing */
             align-items: center;
         }
 
@@ -222,6 +224,7 @@
             position: relative;
             display: flex;
             align-items: center;
+            margin-left: 1.5rem;
         }
         
         #theme-toggle-btn {
@@ -445,12 +448,32 @@
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
-        /* REMOVED: #hologram-avatar::before for static glow ring as requested */
 
         /* Bio */
         #profile-bio p { margin-bottom: 1.2rem; font-size: 1.05rem; color: var(--text-medium); }
         #profile-bio p strong { color: var(--text-light); }
         #profile-bio .btn { margin-top: 1rem; }
+
+        /* Bio List Styling */
+        .profile-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 1.2rem;
+        }
+        .profile-list li {
+            margin-bottom: 0.75rem;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 1.05rem;
+            color: var(--text-medium);
+        }
+        .profile-list li::before {
+            content: '>';
+            position: absolute;
+            left: 0;
+            color: var(--neon-accent);
+            font-weight: bold;
+        }
 
         .current-status {
             display: inline-flex; align-items: center;
@@ -846,6 +869,16 @@
         
         <!-- Header Right: Groups Nav, Theme, and Toggle for mobile -->
         <div class="header-right">
+            <!-- Desktop Nav (Collapses on Mobile) -->
+            <nav id="main-nav">
+                <a href="#home">Home</a>
+                <a href="#profile">Profile</a>
+                <a href="#experience">Experience</a>
+                <a href="#projects">Projects</a>
+                <a href="#skills">Skills</a>
+                <a href="#contact">Contact</a>
+            </nav>
+
             <!-- Theme Selector -->
             <div id="theme-selector">
                 <button id="theme-toggle-btn" aria-label="Change Theme">
@@ -858,20 +891,6 @@
                 </div>
             </div>
             
-            <!-- Desktop Nav (Collapses on Mobile) -->
-            <nav id="main-nav">
-                <a href="#home">Home</a>
-                <a href="#profile">Profile</a>
-                <a href="#experience">Experience</a>
-                <a href="#education">Education</a>
-                <a href="#skills">Skills</a>
-                <a href="#projects">Projects</a>
-                <a href="#certifications">Achievements</a>
-                <a href="#languages">Languages</a>
-                <a href="#hobbies">Hobbies</a>
-                <a href="#contact">Contact</a>
-            </nav>
-
             <!-- Hamburger Menu -->
             <button id="menu-toggle" aria-label="Toggle Menu">&#9776;</button>
         </div>
@@ -901,19 +920,29 @@
                     <h3>[ Tony Mathew ]</h3>
                     <div class="current-status">
                         <span class="status-indicator"></span>
-                        STATUS: Open to Work. Actively seeking opportunities in Data Analytics, Digital Marketing, & Creative Ops.
+                        STATUS: Open to Work. Actively seeking opportunities in Business Intelligence Analyst, Performance Marketing and product management.
                     </div>
                     <p>
-                        Hello! I'm a strategic thinker who operates at the nexus of <strong>data analytics, marketing operations, and creative strategy</strong>. My career is built on a unique dual-passion: understanding the 'why' behind the data and managing the 'how' of complex projects.
+                        I’m a Business Intelligence–focused analyst who turns messy data into clear, actionable decisions.
                     </p>
                     <p>
-                        At <strong>Amazon</strong>, I worked inside the AI, operating 12+ workflows. I didn't just label data—I achieved <strong>90% accuracy</strong>, performed <strong>content generation</strong>, and learned what makes data reliable for AI systems. This gave me a deep, foundational understanding of data analytics.
+                        My work sits at the intersection of data analytics and business strategy, with a secondary focus on performance marketing—where insights directly drive growth.
                     </p>
                     <p>
-                        At <strong>McKinsey & Company</strong>, I served as a central operations hub, <strong>streamlining workflows</strong> (improving productivity by 25%) and coordinating complex project schedules for 10+ consultants. This is project management and creative operations in a high-stakes environment.
+                        At <strong>Amazon</strong>, I worked within AI-driven workflows, managing 12+ data pipelines and maintaining 90% accuracy. Beyond execution, I developed a strong understanding of what makes data reliable, structured, and usable for decision-making systems.
                     </p>
                     <p>
-                        I bridge the gap—I bring the <strong>analytical mindset</strong> of a data pro, the <strong>strategic coordination</strong> of a project manager, and the <strong>creative vision</strong> of a product designer.
+                        At <strong>McKinsey & Company</strong>, I operated as a central coordination layer for 10+ consultants, improving workflow efficiency by 25%. This experience sharpened my ability to translate business needs into structured processes and measurable outcomes.
+                    </p>
+                    <p>I specialize in:</p>
+                    <ul class="profile-list">
+                        <li>Building dashboards and extracting insights that influence decisions</li>
+                        <li>Structuring and cleaning data for reliable reporting</li>
+                        <li>Connecting business problems to measurable metrics</li>
+                        <li>Applying analytical thinking to marketing performance and growth</li>
+                    </ul>
+                    <p>
+                        I’m currently focused on Business Intelligence roles, where I can combine data, systems thinking, and business context to drive smarter decisions. I also bring a strong foundation in performance marketing, allowing me to connect data insights directly to revenue impact.
                     </p>
                     <a href="https://drive.google.com/file/d/1ZM0CfMVo6Bd06f92bks9ZdKhZoZoku3L/view?usp=sharing" target="_blank" class="btn btn-secondary">Download Profile (PDF)</a>
                 
@@ -938,7 +967,7 @@
                     <div class="glass-card tilt-card">
                         <div class="mission-header">
                             <h3>Mission 02: Executive Assistant</h3>
-                            <span>Jan 2025 – Present</span>
+                            <span>Jan 2025 to April 2026</span>
                         </div>
                         <h4>@ McKinsey & Company</h4>
                         <p class="mission-objective">
@@ -1024,18 +1053,19 @@
             
             <h3>// Technical & AI Ops</h3>
             <div id="skill-tree">
-                <div class="glass-card skill-card"><h4>AI Data Operations</h4><p>Labeling, tagging, and curating high-quality data to train and improve AI/ML systems.</p></div>
-                <div class="glass-card skill-card"><h4>Prompt Engineering</h4><p>Crafting precise instructions for Generative AI to produce reliable and accurate content.</p></div>
-                <div class="glass-card skill-card"><h4>MS Office Suite (Expert)</h4><p>Advanced proficiency in Excel, PowerPoint, and Word for data analysis, presentations, and reports.</p></div>
-                <div class="glass-card skill-card"><h4>Video Editing</h4><p>Crafting compelling visual stories and editing high-quality video content for digital platforms.</p></div>
+                <div class="glass-card skill-card tilt-card"><h4>SQL & Power BI</h4><p>Querying complex databases and building interactive, data-driven dashboards to visualize key business metrics.</p></div>
+                <div class="glass-card skill-card tilt-card"><h4>AI Data Operations</h4><p>Labeling, tagging, and curating high-quality data to train and improve AI/ML systems.</p></div>
+                <div class="glass-card skill-card tilt-card"><h4>Prompt Engineering</h4><p>Crafting precise instructions for Generative AI to produce reliable and accurate content.</p></div>
+                <div class="glass-card skill-card tilt-card"><h4>MS Office Suite (Expert)</h4><p>Advanced proficiency in Excel, PowerPoint, and Word for data analysis, presentations, and reports.</p></div>
+                <div class="glass-card skill-card tilt-card"><h4>Video Editing</h4><p>Crafting compelling visual stories and editing high-quality video content for digital platforms.</p></div>
             </div>
 
             <h3 style="margin-top: 3rem;">// Core Competencies</h3>
             <div class="info-grid">
-                <div class="glass-card skill-card"><h4>Stakeholder Management</h4><p>Communicating and coordinating effectively with diverse teams and senior leadership.</p></div>
-                <div class="glass-card skill-card"><h4>Critical Thinking</h4><p>Analyzing complex problems and identifying logical, efficient solutions to improve workflows.</p></div>
-                <div class="glass-card skill-card"><h4>Discretion & Confidentiality</h4><p>Proven ability to handle sensitive documents and high-stakes meetings with complete professionalism.</p></div>
-                <div class="glass-card skill-card"><h4>Proactivity & Initiative</h4><p>Recognized with the 'Ownership' Award at Amazon for proactively improving team processes.</p></div>
+                <div class="glass-card skill-card tilt-card"><h4>Stakeholder Management</h4><p>Communicating and coordinating effectively with diverse teams and senior leadership.</p></div>
+                <div class="glass-card skill-card tilt-card"><h4>Critical Thinking</h4><p>Analyzing complex problems and identifying logical, efficient solutions to improve workflows.</p></div>
+                <div class="glass-card skill-card tilt-card"><h4>Discretion & Confidentiality</h4><p>Proven ability to handle sensitive documents and high-stakes meetings with complete professionalism.</p></div>
+                <div class="glass-card skill-card tilt-card"><h4>Proactivity & Initiative</h4><p>Recognized with the 'Ownership' Award at Amazon for proactively improving team processes.</p></div>
             </div>
         </section>
 
@@ -1044,29 +1074,19 @@
             <h2>Project Demos</h2>
             <p class="section-subtitle">Side quests and personal projects where I test new skills and build new things.</p>
             
-            <!-- Updated Project Grid -->
             <div id="project-grid">
-                <!-- NEW: AccountaBill App -->
-                <div class="glass-card project-card tilt-card" data-modal="project-5">
+                
+                <!-- NEW: SQL & BI Projects -->
+                <div class="glass-card project-card tilt-card" data-modal="project-sql">
                     <div class="project-visual">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0v3.75C20.25 19.853 16.556 21.75 12 21.75s-8.25-1.847-8.25-4.125v-3.75" /></svg>
                     </div>
-                    <span class="project-tag">Creator & Project Lead</span>
-                    <h3>AccountaBill - Finance App</h3>
-                    <p>Designed a comprehensive mobile finance tracker focused on user accountability and intuitive expense visualization. <strong>(In Progress)</strong></p>
+                    <span class="project-tag">Data Analyst</span>
+                    <h3>SQL & BI Projects</h3>
+                    <p>Click to find out more. A dedicated external portfolio hosting all my advanced SQL queries and Power BI dashboard builds.</p>
                 </div>
 
-                <!-- NEW: JLab Lux Redesign -->
-                <div class="glass-card project-card tilt-card" data-modal="project-6">
-                    <div class="project-visual">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 0 0-5.78 1.128 2.25 2.25 0 0 1-2.4 2.245 4.5 4.5 0 0 0 8.4-2.245c0-.399-.078-.78-.22-1.128Zm0 0a15.998 15.998 0 0 0 3.388-1.62m-5.043-.025a15.994 15.994 0 0 1 1.622-3.395m3.42 3.42a15.995 15.995 0 0 0 4.764-4.648l3.876-5.814a1.151 1.151 0 0 0-1.597-1.597L14.146 6.32a15.996 15.996 0 0 0-4.649 4.763m3.42 3.42a6.776 6.776 0 0 0-3.42-3.42" /></svg>
-                    </div>
-                    <span class="project-tag">UI/UX Designer</span>
-                    <h3>JLab Lux App Redesign</h3>
-                    <p>Revamped the user interface for JLab's premium audio app, focusing on minimalist aesthetics and improved usability.</p>
-                </div>
-
-                <!-- NEW: McKinsey Video Production -->
+                <!-- McKinsey Video Production -->
                 <div class="glass-card project-card tilt-card" data-modal="project-7">
                     <div class="project-visual">
                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z" /></svg>
@@ -1076,7 +1096,7 @@
                     <p>Directed and edited high-impact video content for McKinsey & Company internal events and team milestones.</p>
                 </div>
 
-                <!-- Existing Projects (Moved down) -->
+                <!-- Focus Loop -->
                 <div class="glass-card project-card tilt-card" data-modal="project-1">
                     <div class="project-visual">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" /></svg>
@@ -1086,6 +1106,7 @@
                     <p>Spearheaded the end-to-end product lifecycle for a productivity app, from concept to pre-launch state.</p>
                 </div>
                 
+                <!-- Personal Website -->
                 <div class="glass-card project-card tilt-card" data-modal="project-4">
                     <div class="project-visual">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5 0-4.5 16.5" /></svg>
@@ -1230,7 +1251,7 @@
                 <span class="email-text">tonymathew360@gmail.com</span>
             </a>
         </div>
-        <p>&copy; 2025 Tony Mathew. System file running.</p>
+        <p>&copy; 2026 Tony Mathew. System file running.</p>
     </footer>
     
     <div id="terminal-mode">
@@ -1257,31 +1278,19 @@
 
     <!-- Modal Content Definitions -->
     
-    <!-- NEW: AccountaBill Project -->
-    <template id="modal-project-5">
-        <span class="project-tag">Creator & Project Lead</span>
-        <h3>AccountaBill - Finance App</h3>
-        <p>We evolved AccountaBill from a novel sentence-based data entry concept into a fully functional, futuristic Flutter application.</p>
+    <!-- NEW: SQL & BI Projects -->
+    <template id="modal-project-sql">
+        <span class="project-tag">Data Analyst</span>
+        <h3>SQL & BI Projects</h3>
+        <p>A dedicated portfolio environment for my data analysis work. <strong>(External Link Coming Soon)</strong></p>
         <hr>
-        <h4>// Case Study</h4>
-        <p><strong>Objective:</strong> To create a financial tracking tool that simplifies expense management and promotes personal accountability.</p>
-        <p><strong>Solution:</strong> Starting with a web prototype to validate the core logic, we migrated to a robust mobile architecture integrated with Firebase for real-time cloud sync and authentication. The final product features a polished "Glassmorphism" UI with fluid animations, a smart prediction engine that auto-categorizes expenses, and a frictionless budgeting system enhanced by gamification elements like XP rewards and confetti, successfully transforming a utility tool into an engaging, intelligent financial companion.</p>
-        <p><strong>Outcome:</strong> Delivered a functional prototype that received positive feedback for its intuitive design and actionable insights, empowering users to take control of their financial health. This project is still a work in progress.</p>
+        <h4>// Overview</h4>
+        <p>I am currently developing a separate, dedicated web environment to host all of my deep-dive SQL scripts, database architecture models, and interactive Power BI dashboards.</p>
+        <p>This separate space will allow for native embedding of reports and extensive code snippets without cluttering this central profile terminal.</p>
+        <p><strong>Check back soon for the access link!</strong></p>
     </template>
 
-    <!-- NEW: JLab Lux App Redesign -->
-    <template id="modal-project-6">
-        <span class="project-tag">UI/UX Designer</span>
-        <h3>JLab Lux App Redesign</h3>
-        <p>We executed a full, high-fidelity redesign of the JLab mobile application prototype in Flutter, focusing on enhancing user experience and visual polish while maintaining 100% parity with all original features.</p>
-        <hr>
-        <h4>// Case Study</h4>
-        <p><strong>Problem:</strong> The existing app interface was cluttered and difficult to navigate, detracting from the premium audio experience.</p>
-        <p><strong>Solution:</strong> The key changes involved shifting to a Dashboard-First UI, improving accessibility to primary controls (ANC, Spatial Audio) via interactive cards, integrating a premium Dark Theme with the Inter font, and meticulously replicating the precise interface and locking functionality of the 10-Band Equalizer for the product demonstration.</p>
-        <p><strong>Outcome:</strong> The redesign resulted in a more engaging and intuitive user experience, aligning the app's aesthetic with JLab's premium brand identity and improving user satisfaction scores.</p>
-    </template>
-
-    <!-- NEW: McKinsey Video Production -->
+    <!-- McKinsey Video Production -->
     <template id="modal-project-7">
         <span class="project-tag">Video Producer & Editor</span>
         <h3>Corporate Video Production</h3>
@@ -1290,16 +1299,16 @@
         <h4>// Case Study</h4>
         <p><strong>Overview:</strong> Produced a series of videos to celebrate team achievements and foster company culture.</p>
         <p><strong>Key Projects:</strong>
-            <ul>
-                <li><strong>1st Year Chennai EA Anniversary:</strong> Created a celebratory video highlighting key milestones and team successes.</li>
-                <li><strong>Team Outing in Pondicherry:</strong> Produced a documentary-style video capturing the team building event, fostering camaraderie and engagement.</li>
-                <li><strong>Relief Team 1st Anniversary:</strong> Edited a commemorative video to recognize the hard work and dedication of the relief team.</li>
+            <ul style="padding-left: 1.5rem; margin-top: 1rem;">
+                <li style="margin-bottom: 0.5rem;"><strong>1st Year Chennai EA Anniversary:</strong> Created a celebratory video highlighting key milestones and team successes.</li>
+                <li style="margin-bottom: 0.5rem;"><strong>Team Outing in Pondicherry:</strong> Produced a documentary-style video capturing the team building event, fostering camaraderie and engagement.</li>
+                <li style="margin-bottom: 0.5rem;"><strong>Relief Team 1st Anniversary:</strong> Edited a commemorative video to recognize the hard work and dedication of the relief team.</li>
             </ul>
         </p>
-        <p><strong>Impact:</strong> These videos enhanced internal communication, boosted team morale, and showcased the vibrant culture within the organization.</p>
+        <p style="margin-top: 1rem;"><strong>Impact:</strong> These videos enhanced internal communication, boosted team morale, and showcased the vibrant culture within the organization.</p>
     </template>
 
-    <!-- Existing Projects -->
+    <!-- Focus Loop -->
     <template id="modal-project-1">
         <span class="project-tag">Creator & Project Lead</span>
         <h3>Focus Loop - Android App</h3>
@@ -1308,31 +1317,10 @@
         <h4>// Case Study</h4>
         <p><strong>Problem:</strong> Existing productivity apps were either too complex or too simple, lacking features that genuinely aided a "flow state."</p>
         <p><strong>Solution:</strong> Architected a user-centric experience focused on minimizing friction. Designed and prototyped key features like a 'Zen/Plus' mode and 'One-Tap Focus' to optimize user workflow and engagement.</p>
-        <p><strong>Outcome:</strong> Utilized AI-assisted development tools to accelerate the software development lifecycle, managing iterative sprints for UI/UX enhancements, feature implementation, and debugging to deliver a high-performance, **stable application ready for launch.**</p>
+        <p><strong>Outcome:</strong> Utilized AI-assisted development tools to accelerate the software development lifecycle, managing iterative sprints for UI/UX enhancements, feature implementation, and debugging to deliver a high-performance, <strong>stable application ready for launch.</strong></p>
     </template>
     
-    <template id="modal-project-2">
-        <span class="project-tag">Academic Team Lead</span>
-        <h3>Organizational Study: Netflix</h3>
-        <p>Led a 4-person team to analyze Netflix's organizational design. Produced a 30+ page report that earned a grade of 96/100 for its depth and actionable insights.</p>
-        <hr>
-        <h4>// Case Study</h4>
-        <p><strong>Objective:</strong> To dissect the organizational structure and culture of Netflix, identifying the key drivers of its innovation and market dominance.</p>
-        <p><strong>Methodology:</strong> Conducted extensive research on Netflix's "Freedom and Responsibility" culture, its decentralized decision-making processes, and its unique approach to talent management.</p>
-        <p><strong>Outcome:</strong> The 30+ page report provided a comprehensive analysis, correlating Netflix's organizational design with its business success. The 96/100 grade reflected the report's actionable insights and deep understanding of modern corporate strategy.</p>
-    </template>
-
-    <template id="modal-project-3">
-        <span class="project-tag">Academic Researcher</span>
-        <h3>Workplace Stress Study</h3>
-        <p>Surveyed 50 employees to identify key stress triggers. Delivered a final report with actionable recommendations for management that scored 97/100.</p>
-        <hr>
-        <h4>// Case Study</h4>
-        <p><strong>Objective:</strong> To identify the primary sources of workplace stress within a mid-sized organization and propose practical, low-cost interventions for management.</p>
-        <p><strong>Methodology:</strong> Designed and deployed an anonymous survey to 50 employees, followed by structured interviews to gather qualitative data. Analyzed quantitative and qualitative feedback to pinpoint common themes.</p>
-        <p><strong>Outcome:</strong> The final report identified "ambiguous role expectations" and "inefficient communication channels" as the top stressors. The actionable recommendations, which focused on structured check-ins and a centralized info hub, were praised for their practicality, earning a 97/100 score.</p>
-    </template>
-    
+    <!-- TONY_MATHEW.EXE -->
     <template id="modal-project-4">
         <span class="project-tag">Designer & Developer</span>
         <h3>TONY_MATHEW.EXE (This Website)</h3>
@@ -1548,6 +1536,7 @@
                     });
                 });
             }
+            // All cards are now targeted perfectly 
             apply3DTilt('.skill-card');
             apply3DTilt('.cert-card');
             apply3DTilt('.info-card');
