@@ -7,7 +7,7 @@
     <title>TONY MATHEW.EXE</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230A0A12'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' fill='%2300e0ff' font-size='80' font-family='Bebas Neue, sans-serif' font-style='italic'>TM</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230A0A12'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='Courier New, monospace' font-weight='bold' font-size='60' fill='%2300e0ff'>%3E_</text></svg>">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1341,17 +1341,20 @@
             if (bootScreen) {
                 const typedBoot = new Typed('#boot-text', {
                     strings: [
-                        '> Initializing system...<br>> Loading identity: TONY_MATHEW.EXE...^500 OK<br>> Decrypting experience files...^500 OK<br>> Boot complete.<br>> Welcome to the File.<span class="cursor-blink">_</span>'
+                        '> Initializing system...^200<br>> Loading identity: TONY_MATHEW.EXE...^200 OK<br>> Decrypting experience files...^200 OK<br>> Boot complete.<br>> Welcome to the File.<span class="cursor-blink">_</span>'
                     ],
-                    typeSpeed: 30,
+                    typeSpeed: 6,
                     backSpeed: 0,
-                    backDelay: 1000,
                     showCursor: false,
-                    smartBackspace: false,
                     loop: false,
                     onComplete: () => {
+                        // Total typing takes ~1.38s. Add a smooth fade out to hit the 1.5s mark beautifully.
                         setTimeout(() => {
-                            bootScreen.classList.add('hidden');
+                            bootScreen.style.transition = 'opacity 0.3s ease-out';
+                            bootScreen.style.opacity = '0';
+                            setTimeout(() => {
+                                bootScreen.classList.add('hidden');
+                            }, 300);
                         }, 50); 
                     }
                 });
